@@ -150,7 +150,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 			list=user.queryData();
 			try {
 				String json = JsonUtils.setJsonData(list);
-				set_order_info(getActivity(), url, "153641583973", "长沙市", json,
+				set_order_info(getActivity(), url, "1536415", "长沙市", json,
 						new Messenger(handler));
 			} catch (JSONException e) {
 				// TODO 自动生成的 catch 块

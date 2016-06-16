@@ -140,15 +140,15 @@ public class Fragment03 extends BaseFragment implements OnClickListener {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initGridviewData() {
 		Map map = new HashMap<>();
-		map.put("headicon", getResources().getDrawable(R.drawable.ic_launcher));
+		map.put("headicon", getResources().getDrawable(R.drawable.myorder));
 		map.put("name", "我的订单");
 		listdata.add(map);
 		map = new HashMap<>();
-		map.put("headicon", getResources().getDrawable(R.drawable.ic_launcher));
+		map.put("headicon", getResources().getDrawable(R.drawable.address));
 		map.put("name", "收货地址");
 		listdata.add(map);
 		map = new HashMap<>();
-		map.put("headicon", getResources().getDrawable(R.drawable.ic_launcher));
+		map.put("headicon", getResources().getDrawable(R.drawable.changepassword));
 		map.put("name", "修改密码");
 		listdata.add(map);
 	}
