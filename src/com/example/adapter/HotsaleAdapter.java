@@ -30,7 +30,7 @@ public class HotsaleAdapter extends BaseAdapter {
 	private LayoutInflater layoutInflater;
 	private ViewHolder holder;
 	private String url = "http://192.168.1.102:8080/Vegetable/upload/";
-    UserDao user;
+	UserDao user;
 	HashMap<Integer, View> map = new HashMap<>();
 
 	public HotsaleAdapter(List<Good> listdata, Context context) {
@@ -38,7 +38,7 @@ public class HotsaleAdapter extends BaseAdapter {
 		this.listdata = listdata;
 		this.context = context;
 		this.layoutInflater = LayoutInflater.from(context);
-		this.user=new UserDao(context);
+		this.user = new UserDao(context);
 	}
 
 	@Override
@@ -88,6 +88,7 @@ public class HotsaleAdapter extends BaseAdapter {
 				+ listdata.get(position).getGoodPrice());
 		final String Url = url + listdata.get(position).getGoodImgPath();
 		Glide.with(context).load(Url).centerCrop().crossFade(500)
+				.skipMemoryCache(true)
 				.error(R.drawable.dt_standard_index_news_bg)
 				.placeholder(R.drawable.dt_standard_index_news_bg).crossFade()
 				.into(holder.iv_hotsale_item);
@@ -122,10 +123,10 @@ public class HotsaleAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View v) {
 			// TODO 自动生成的方法存根
-			Good good=new Good();
+			Good good = new Good();
 			good.setGoodName(listdata.get(position).getGoodName());
 			good.setGoodPrice(listdata.get(position).getGoodPrice());
-			good.setGoodImgPath(url+listdata.get(position).getGoodImgPath());
+			good.setGoodImgPath(url + listdata.get(position).getGoodImgPath());
 			good.setGoodWeight(listdata.get(position).getGoodWeight());
 			good.setOneBoxWeight(listdata.get(position).getOneBoxWeight());
 			user.add(good);

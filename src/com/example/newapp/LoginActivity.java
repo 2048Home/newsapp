@@ -56,6 +56,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         	  edit.putString("password", et_password.getText().toString().trim());
         	  edit.putBoolean("isLogin", true);
         	  edit.commit();
+        	  finish();
           }
 				break;
 

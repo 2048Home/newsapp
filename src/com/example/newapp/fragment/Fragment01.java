@@ -122,9 +122,10 @@ public class Fragment01 extends BaseFragment {
 
 	public void getData() {
 		String url = API.HOTSALE_URL;
-		int number = ++index;
-		get_hotsale_info(getActivity(), url, number + "", new Messenger(
+//		int number = index+9;
+		get_hotsale_info(getActivity(), url, index + "", new Messenger(
 				mhandler));
+		index+=10;
 	}
 
 	public interface onCarListener {
@@ -137,13 +138,7 @@ public class Fragment01 extends BaseFragment {
 		this.oncListener = oncListener;
 	}
 
-	@Override
-	public void onPause() {
-		// TODO 自动生成的方法存根
-		super.onPause();
-		index = 0;
-		listdata.clear();
-	}
+
 
 	@Override
 	public void onDestroy() {

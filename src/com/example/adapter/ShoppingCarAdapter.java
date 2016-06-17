@@ -80,7 +80,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 			map.put(position, convertView);
 			convertView.setTag(holder);
 		} else {
-			//把convertView存起来，防止ITEM在异步加载时候错乱
+			// 把convertView存起来，防止ITEM在异步加载时候错乱
 			convertView = map.get(position);
 			convertView.getTag();
 		}
@@ -91,7 +91,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 				onJianListener, price));
 		holder.tv_jian.setOnClickListener(new MyOnclick(position, holder,
 				REMOVE, onJianListener, price));
-        //填充数据
+		// 填充数据
 		Glide.with(context).load(listdata.get(position).getGoodImgPath())
 				.centerCrop().error(R.drawable.dt_standard_index_news_bg)
 				.placeholder(R.drawable.dt_standard_index_news_bg)
@@ -125,7 +125,6 @@ public class ShoppingCarAdapter extends BaseAdapter {
 		boolean reMarkPosition = true;
 		int count = 0;
 		HashMap<String, Integer> map;
-		
 
 		public MyOnclick(int position, ViewHolder holder, int state,
 				onJianListener onJianListener, String price) {
@@ -134,16 +133,17 @@ public class ShoppingCarAdapter extends BaseAdapter {
 			this.state = state;
 			this.onJianListener = onJianListener;
 			this.price = price;
-			user=new UserDao(context);
+			user = new UserDao(context);
 		};
 
 		@Override
 		public void onClick(View v) {
 			// TODO 自动生成的方法存根
-			int number = Integer.valueOf(holder.tv_show.getText().toString().trim());
+			int number = Integer.valueOf(holder.tv_show.getText().toString()
+					.trim());
 			if (state == NONE) {
 				listdata.remove(position);
-				user.deleteById(position+1);
+				user.deleteById(position + 1);
 				notifyDataSetChanged();
 			} else if (state == REMOVE) {
 				if (onJianListener != null) {
@@ -151,7 +151,6 @@ public class ShoppingCarAdapter extends BaseAdapter {
 					if (!holder.tv_show.getText().equals("0")) {
 						// Log.d(MyApplication.TAG,
 						// holder.tv_show.getText().toString().indexOf(0)+"");
-				
 
 						holder.tv_show.setText(--number + "");
 					}

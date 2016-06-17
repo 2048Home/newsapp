@@ -293,28 +293,14 @@ public class MyService extends IntentService {
 		// TODO 自动生成的方法存根
 		List<Order> list=new ArrayList<>();;
 		String url = intent.getStringExtra("url");
-		String userid = "UserId=" + intent.getStringExtra("userId");
+		String userid = "userId=" + intent.getStringExtra("userId");
 		String[] str = new String[] { userid };
 		String URL = url + setUrl(str);
 		try {
 			String json = HttpConnectUtils.httpConncet(URL);
 			
-			
-			JSONArray jaaa=new JSONArray();
-			JSONArray jaa=new JSONArray();
-			JSONObject jo=new JSONObject();
-			jo.put("orderId", "10");
-			jo.put("goodName", "苹果");
-			jo.put("goodPrice", "10");
-			jo.put("goodWeight", "10");
-			jo.put("goodSum", "10");
-			jo.put("priceKind", "10");
-			jaa.put(0, jo);
-			jaaa.put(jaa);
-			Log.d(MyApplication.TAG,jaaa+"");
-			
 			List<Order> templist=new ArrayList<>();
-            JSONArray jaab=new JSONArray(jaaa.toString());
+            JSONArray jaab=new JSONArray(json);
 			JSONArray ja=(JSONArray) jaab.get(0);
 			String jsonstr=ja.toString();
 			JosnOper jp=new JosnOper();
@@ -363,14 +349,17 @@ public class MyService extends IntentService {
 		// TODO 自动生成的方法存根
 		String url = intent.getStringExtra("url");
 		String name = "userName=" + intent.getStringExtra("userName");
-		String address = "address=" + intent.getStringExtra("address");
+//		String address = "address=" + intent.getStringExtra("address");
+		String address = "address=" + "address";
 		String jsondata = "json=" + intent.getStringExtra("jsondata");
 		String[] str = new String[] { name, address, jsondata };
 		String URL = url + setUrl(str);
+		Log.d(MyApplication.TAG,URL);
 		// String URL = url ;
 		try {
 			// String json = HttpConnectUtils.httpConnectByPost(URL);
 			String json = HttpConnectUtils.httpConncet(URL);
+			sendMsgToAct(intent, InfoUtils.SET_ORDER_SUCCESS, json, null);
 		} catch (HttpHostConnectException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();

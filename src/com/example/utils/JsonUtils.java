@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.util.Log;
 import android.util.Xml.Encoding;
 
+import com.bumptech.glide.load.model.UrlLoader;
 import com.example.bean.Good;
 import com.example.myapplication.MyApplication;
 import com.google.gson.reflect.TypeToken;
@@ -60,12 +61,12 @@ public class JsonUtils {
 		JSONArray ja=new JSONArray();
 		for(int i=0;i<list.size();i++){
 			JSONObject jsonobj=new JSONObject();
-			try {
-				jsonobj.put("goodName",URLEncoder.encode(list.get(i).getGoodName(),"UTF-8") );
-			} catch (UnsupportedEncodingException e) {
-				// TODO 自动生成的 catch 块
-				e.printStackTrace();
-			}
+				try {
+					jsonobj.put("goodName",URLEncoder.encode(list.get(i).getGoodName(), "UTF-8"));
+				} catch (UnsupportedEncodingException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
 			jsonobj.put("goodPrice", list.get(i).getGoodPrice());
 			jsonobj.put("goodWeight", list.get(i).getGoodWeight());
 //			jsonobj.put("goodImgPath", list.get(i).getGoodImgPath());

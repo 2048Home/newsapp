@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		viewPager
 				.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
 		// viewPager.setOffscreenPageLimit(fragmentList.size());
-		viewPager.setOffscreenPageLimit(0);
+		viewPager.setOffscreenPageLimit(fragmentList.size());
 		viewPager.setCurrentItem(0);
 	}
 

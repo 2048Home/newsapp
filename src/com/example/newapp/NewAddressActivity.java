@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Messenger;
@@ -30,6 +31,7 @@ public class NewAddressActivity extends BaseActivity implements OnClickListener 
 	private ListView lv_get_address;
 	AddressAdapter addressAdapter;
 	private List<Address> listdata;
+	SharedPreferences userSp;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 
@@ -51,8 +53,8 @@ public class NewAddressActivity extends BaseActivity implements OnClickListener 
 		// TODO 自动生成的方法存根
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_get_address);
-		getData();
 		initView();
+		getData();
 	}
 
 	private void initView() {
@@ -63,6 +65,7 @@ public class NewAddressActivity extends BaseActivity implements OnClickListener 
 		setAddVisiable();
 		findViewById(R.id.tv_add).setOnClickListener(this);
 		listdata = new ArrayList<>();
+		userSp = getSharedPreferences("UserInfo", MODE_PRIVATE);
 		lv_get_address = (ListView) findViewById(R.id.lv_get_address);
 		addressAdapter = new AddressAdapter(listdata, NewAddressActivity.this);
 		addressAdapter.setOnChooeseListener(new OnChooeseListener() {
@@ -104,22 +107,25 @@ public class NewAddressActivity extends BaseActivity implements OnClickListener 
 		// TODO 自动生成的方法存根
 		super.onActivityResult(arg0, arg1, arg2);
 		if (arg1 == 20) {
-//			Bundle bun = arg2.getExtras();
-//			Address address = (Address) bun.get("address");
-//			listdata.add(address);
-//			addressAdapter.notifyDataSetChanged();
+			// Bundle bun = arg2.getExtras();
+			// Address address = (Address) bun.get("address");
+			// listdata.add(address);
+			// addressAdapter.notifyDataSetChanged();
 		} else {
-////			Bundle bun = arg2.getExtras();
-//			Address address = (Address) bun.get("address");
-//			int position = bun.getInt("position");
-//			listdata.remove(position);
-//			listdata.add(address);
-//			addressAdapter.notifyDataSetChanged();
+			// // Bundle bun = arg2.getExtras();
+			// Address address = (Address) bun.get("address");
+			// int position = bun.getInt("position");
+			// listdata.remove(position);
+			// listdata.add(address);
+			// addressAdapter.notifyDataSetChanged();
 		}
 	}
-	private void getData(){
-		String url=API.ADDRESS_URL;
-		String userName="yzk";
-		get_address(NewAddressActivity.this, url, userName, new Messenger(handler));
+
+	private void getData() {
+		String url = API.ADDRESS_URL;
+		String userName = userSp != null ? userSp.getString("username", "")
+				: "";
+		get_address(NewAddressActivity.this, url, userName, new Messenger(
+				handler));
 	}
 }
