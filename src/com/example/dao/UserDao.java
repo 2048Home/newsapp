@@ -8,9 +8,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.bean.Good;
 import com.example.db.MyDataBase;
+import com.example.myapplication.MyApplication;
 
 public class UserDao {
 	private MyDataBase helper;
@@ -50,26 +52,23 @@ public class UserDao {
 				"goodWeight" };
 		Cursor c = db.query("Good", null, null, null, null, null, null);
 		if (c != null) {
-//			if (c.moveToFirst()) {
-				while (c.moveToNext()) {
-					 Good good = new Good();
-					 String goodName =
-					 c.getString(c.getColumnIndex("goodName"));
-					 String goodPrice = c.getString(c
-					 .getColumnIndex("goodPrice"));
-					 String goodImgPath = c.getString(c
-					 .getColumnIndex("goodImgPath"));
-					 String goodWeight = c.getString(c
-					 .getColumnIndex("goodWeight"));
-					 String oneBoxWeight = c.getString(c
-					 .getColumnIndex("oneBoxWeight"));
-					 good.setGoodName(goodName);
-					 good.setGoodPrice(goodPrice);
-					 good.setGoodImgPath(goodImgPath);
-					 good.setGoodWeight(goodWeight);
-					 good.setOneBoxWeight(oneBoxWeight);
-					 list.add(good);
-//				}
+			// if (c.moveToFirst()) {
+			while (c.moveToNext()) {
+				Good good = new Good();
+				String goodName = c.getString(c.getColumnIndex("goodName"));
+				String goodPrice = c.getString(c.getColumnIndex("goodPrice"));
+				String goodImgPath = c.getString(c
+						.getColumnIndex("goodImgPath"));
+				String goodWeight = c.getString(c.getColumnIndex("goodWeight"));
+				String oneBoxWeight = c.getString(c
+						.getColumnIndex("oneBoxWeight"));
+				good.setGoodName(goodName);
+				good.setGoodPrice(goodPrice);
+				good.setGoodImgPath(goodImgPath);
+				good.setGoodWeight(goodWeight);
+				good.setOneBoxWeight(oneBoxWeight);
+				list.add(good);
+				// }
 			}
 		}
 		c.close();
@@ -100,6 +99,19 @@ public class UserDao {
 	}
 
 	/**
+	 * 根据名字删数据
+	 * 
+	 * @param id
+	 */
+	public void deleteByName(String goodName) {
+		db = helper.getWritableDatabase();
+		db.delete("Good", "goodName=?", new String[] { goodName });
+		db.close();
+	}
+
+	/**
+	 * 通过名字判断商品是否存在
+	 * 
 	 * @param dataKey
 	 *            需要查询的值对应的键名
 	 * @param data
@@ -111,7 +123,7 @@ public class UserDao {
 		Cursor c = db.query("Good", new String[] { "goodName" },
 				dataKey + "=?", new String[] { (String) data }, null, null,
 				null);
-		if (c != null /*|| c.moveToFirst()*/) {
+		if (c != null /* || c.moveToFirst() */) {
 			if (c.moveToNext()) {
 				db.close();
 				return true;
@@ -120,4 +132,34 @@ public class UserDao {
 		db.close();
 		return false;
 	}
+
+	public String queryGoodWeightByName(String[] name) {
+		db = helper.getWritableDatabase();
+		String[] columns = { "goodWeight" };
+		String selection = "goodName=?";
+		Cursor c = db.query("Good", columns, selection, name, null, null, null);
+		while (c.moveToNext()) {
+			return c.getString(c.getColumnIndex("goodWeight"));
+		}
+		return "";
+	}
+
+	/**
+	 * @param tableName
+	 * @param dataKey
+	 *            改变数据的键
+	 * @param data
+	 *            改变数据的值
+	 * @param values
+	 *            约束条件的值
+	 */
+	public <T> void Updata(String tableName, T dataKey, T data, String[] values) {
+		db = helper.getWritableDatabase();
+		ContentValues Cvalues = new ContentValues();
+		Cvalues.put(dataKey.toString(), data.toString());
+		db.update(tableName, Cvalues, "goodName=?", values);
+		Log.d(MyApplication.TAG, 	db.update(tableName, Cvalues, "goodName=?", values)+"");
+		db.close();
+	}
+
 }

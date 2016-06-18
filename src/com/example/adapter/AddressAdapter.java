@@ -74,9 +74,12 @@ public class AddressAdapter extends BaseAdapter {
 			holder.name = (TextView) convertView.findViewById(R.id.tv_name);
 			holder.dianhua = (TextView) convertView
 					.findViewById(R.id.tv_dianhua);
+		
 			holder.dizhi = (TextView) convertView.findViewById(R.id.tv_dizhi);
+	
 			holder.btn_delete = (Button) convertView
 					.findViewById(R.id.btn_delete);
+		
 			holder.btn_edit=(Button) convertView.findViewById(R.id.btn_edit);
 			holder.btn_edit.setOnClickListener(new OnClickListener() {
 
@@ -109,9 +112,14 @@ public class AddressAdapter extends BaseAdapter {
 		} else {
 			convertView.getTag();
 		}
-		holder.name.setText(listdata.get(position).getLianxiren());
-		holder.dianhua.setText(listdata.get(position).getDianhua());
-		holder.dizhi.setText(listdata.get(position).getXiangxidizhi());
+		holder.dianhua.setVisibility(View.GONE);
+		holder.dizhi.setVisibility(View.GONE);
+		holder.btn_delete.setVisibility(View.GONE);
+		holder.btn_edit.setVisibility(View.GONE);
+//		holder.name.setText(listdata.get(position).getLianxiren());
+		holder.name.setText(listdata.get(position).getXiangxidizhi());
+//		holder.dianhua.setText(listdata.get(position).getDianhua());
+//		holder.dizhi.setText(listdata.get(position).getXiangxidizhi());
 		return convertView;
 	}
 

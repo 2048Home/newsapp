@@ -8,10 +8,12 @@ import org.json.JSONException;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Messenger;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,10 +32,13 @@ import com.example.api.API;
 import com.example.base.BaseFragment;
 import com.example.bean.Good;
 import com.example.dao.UserDao;
+import com.example.myapplication.MyApplication;
+import com.example.newapp.LoginActivity;
 import com.example.newapp.NewAddressActivity;
 import com.example.newapp.R;
 import com.example.utils.InfoUtils;
 import com.example.utils.JsonUtils;
+import com.example.utils.SPutils;
 
 /**
  * @作者 陈籽屹
@@ -107,12 +112,19 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				// TODO 自动生成的方法存根
-				user.deleteAll();
-				listdata.clear();
-//				count = 0;
-				List<Good> list=user.queryData();
-				tv_totalprice.setText("合计："+list.size());
-				shoppingCarAdapter.notifyDataSetChanged();
+				if (SPutils.isLogin(getActivity())) {
+					user.deleteAll();
+					listdata.clear();
+					// count = 0;
+					// List<Good> list = user.queryData();
+					tv_totalprice.setText("合计：" + 0);
+					shoppingCarAdapter.notifyDataSetChanged();
+				} else {
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), LoginActivity.class);
+					startActivity(intent);
+				}
+
 			}
 		});
 
@@ -125,27 +137,46 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 	public void onStart() {
 		// TODO 自动生成的方法存根
 		super.onStart();
+		count = 0;
+		tv_totalprice.setText(Total + String.valueOf(count));
 		listdata = user.queryData();
 		shoppingCarAdapter = new ShoppingCarAdapter(listdata, getActivity());
+		// 设置数量的加减
 		shoppingCarAdapter.setonJianListener(new onJianListener() {
 
 			@Override
-			public void onJian(int price, String state, int position) {
+			public void onJian(int price, String state, int position, int number) {
 				// TODO 自动生成的方法存根
 				if (state.equals("add")) {
 					count += price;
+					// count=price;
+					// Log.d(MyApplication.TAG, count+"");
+					 user.Updata(
+					 "Good",
+					 "goodWeight",
+					 number,
+					 new String[] { listdata.get(position).getGoodName() });
+					// Log.d(MyApplication.TAG,
+					// listdata.get(position).getGoodName());
 					tv_totalprice.setText(Total + String.valueOf(count));
 				} else if (state.equals("jian")) {
 					if (count > 0) {
 						count -= price;
+						// count=price;
+						// Log.d(MyApplication.TAG, count+"");
+						 user.Updata("Good", "goodWeight", number,
+						 new String[] { listdata.get(position)
+						 .getGoodName() });
+
 						tv_totalprice.setText(Total + String.valueOf(count));
 					}
 				} else {
+					// listdata.remove(position);
+					// user.deleteById(position + 1);
+					user.deleteByName(listdata.get(position).getGoodName());
 					listdata.remove(position);
-					user.deleteById(position + 1);
 				}
 				shoppingCarAdapter.notifyDataSetChanged();
-
 			}
 		});
 		shopping_car.setAdapter(shoppingCarAdapter);
@@ -156,25 +187,14 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 		// TODO 自动生成的方法存根
 		switch (v.getId()) {
 		case R.id.btn_buy:
-			// List<Good> list = new ArrayList<>();
-			// String url = API.RequestOrder_URL;
-			// // Good good = new Good();
-			// // good.setGoodName("西红柿");
-			// // good.setGoodPrice("21");
-			// // good.setGoodWeight("52");
-			// // good.setGoodImgPath("123");
-			// // good.setOneBoxWeight("12");
-			// // list.add(good);
-			// list = user.queryData();
-			// try {
-			// String json = JsonUtils.setJsonData(list);
-			// set_order_info(getActivity(), url, "1536415", "长沙市", json,
-			// new Messenger(handler));
-			// } catch (JSONException e) {
-			// // TODO 自动生成的 catch 块
-			// e.printStackTrace();
-			// }
-			setOrder(address);
+
+			if (SPutils.isLogin(getActivity())) {
+				setOrder(address);
+			} else {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), LoginActivity.class);
+				startActivity(intent);
+			}
 			break;
 
 		default:
@@ -224,9 +244,14 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 						list = user.queryData();
 						try {
 							String json = JsonUtils.setJsonData(list);
-							set_order_info(getActivity(), url, "1536415", edit
-									.getText().toString(), json, new Messenger(
-									handler));
+							set_order_info(getActivity(), url, SPutils
+									.getUserName(getActivity()), edit.getText()
+									.toString(), json, new Messenger(handler));
+
+							user.deleteAll();
+							listdata.clear();
+							tv_totalprice.setText("合计：" + 0);
+							shoppingCarAdapter.notifyDataSetChanged();
 						} catch (JSONException e) {
 							// TODO 自动生成的 catch 块
 							e.printStackTrace();

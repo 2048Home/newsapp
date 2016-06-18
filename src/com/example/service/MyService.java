@@ -23,6 +23,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.api.API;
+import com.example.bean.Address;
 import com.example.bean.Good;
 import com.example.bean.Order;
 import com.example.myapplication.MyApplication;
@@ -171,6 +172,7 @@ public class MyService extends IntentService {
 	 */
 	private void get_address(Intent intent) {
 		// TODO 自动生成的方法存根
+		List list=new ArrayList<>();
 		String url = intent.getStringExtra("url");
 		String userName = "userName=" + intent.getStringExtra("name");
 		String[] str = { userName };
@@ -179,7 +181,10 @@ public class MyService extends IntentService {
 		String json;
 		try {
 			json = HttpConnectUtils.httpConncet(URL);
-			sendMsgToAct(intent, InfoUtils.INFO_SUCCESS, json, null);
+			Address adres=new Address();
+			adres.setXiangxidizhi(json);
+			list.add(adres);
+			sendMsgToAct(intent, InfoUtils.INFO_SUCCESS, json, list);
 		} catch (HttpHostConnectException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
@@ -219,7 +224,7 @@ public class MyService extends IntentService {
 		String URL = url + setUrl(str);
 		try {
 			String json = HttpConnectUtils.httpConncet(URL);
-			sendMsgToAct(intent, InfoUtils.INFO_SUCCESS, json, null);
+			sendMsgToAct(intent, InfoUtils.CHANGE_ADDRESS_SUCCESS, json, null);
 		} catch (HttpHostConnectException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
