@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.api.API;
 import com.example.bean.Good;
 import com.example.dao.UserDao;
 import com.example.myapplication.MyApplication;
@@ -32,7 +33,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 	final int REMOVE = 2;
 	final int NONE = 0;
 	HashMap<Integer, View> map = new HashMap<>();
-	String url = "http://192.168.1.102:8080/Vegetable/upload/";
+	String url = API.COMMON_URL + "/Vegetable/upload/";
 
 	public ShoppingCarAdapter(List<Good> listdata, Context context) {
 		super();
@@ -80,7 +81,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 			map.put(position, convertView);
 			convertView.setTag(holder);
 		} else {
-			//把convertView存起来，防止ITEM在异步加载时候错乱
+			// 把convertView存起来，防止ITEM在异步加载时候错乱
 			convertView = map.get(position);
 			convertView.getTag();
 		}
@@ -91,7 +92,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 				onJianListener, price));
 		holder.tv_jian.setOnClickListener(new MyOnclick(position, holder,
 				REMOVE, onJianListener, price));
-        //填充数据
+		// 填充数据
 		Glide.with(context).load(listdata.get(position).getGoodImgPath())
 				.centerCrop().error(R.drawable.dt_standard_index_news_bg)
 				.placeholder(R.drawable.dt_standard_index_news_bg)
@@ -112,6 +113,12 @@ public class ShoppingCarAdapter extends BaseAdapter {
 		private ImageView iv_remove;
 	}
 
+	@Override
+	public boolean isEnabled(int position) {
+		// TODO 自动生成的方法存根
+		return false;
+	}
+
 	public class MyOnclick implements OnClickListener {
 		UserDao user;
 		int position;
@@ -125,7 +132,6 @@ public class ShoppingCarAdapter extends BaseAdapter {
 		boolean reMarkPosition = true;
 		int count = 0;
 		HashMap<String, Integer> map;
-		
 
 		public MyOnclick(int position, ViewHolder holder, int state,
 				onJianListener onJianListener, String price) {
@@ -134,24 +140,25 @@ public class ShoppingCarAdapter extends BaseAdapter {
 			this.state = state;
 			this.onJianListener = onJianListener;
 			this.price = price;
-			user=new UserDao(context);
+			user = new UserDao(context);
 		};
 
 		@Override
 		public void onClick(View v) {
 			// TODO 自动生成的方法存根
-			int number = Integer.valueOf(holder.tv_show.getText().toString().trim());
+			int number = Integer.valueOf(holder.tv_show.getText().toString()
+					.trim());
 			if (state == NONE) {
 				listdata.remove(position);
-				user.deleteById(position+1);
+				user.deleteById(position + 1);
 				notifyDataSetChanged();
 			} else if (state == REMOVE) {
 				if (onJianListener != null) {
-					onJianListener.onJian(Integer.parseInt(price), "jian", 0);
 					if (!holder.tv_show.getText().equals("0")) {
+						onJianListener.onJian(Integer.parseInt(price), "jian",
+								0);
 						// Log.d(MyApplication.TAG,
 						// holder.tv_show.getText().toString().indexOf(0)+"");
-				
 
 						holder.tv_show.setText(--number + "");
 					}

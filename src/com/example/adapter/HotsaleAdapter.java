@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.widget.SearchViewCompat.OnCloseListenerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +14,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.api.API;
 import com.example.bean.Good;
 import com.example.bean.User;
 import com.example.dao.UserDao;
+import com.example.newapp.LoginActivity;
+import com.example.newapp.MyOrderActivity;
 import com.example.newapp.R;
+import com.example.utils.SPutils;
 
 /**
  * @作者 陈籽屹
@@ -29,8 +36,8 @@ public class HotsaleAdapter extends BaseAdapter {
 	private Context context;
 	private LayoutInflater layoutInflater;
 	private ViewHolder holder;
-	private String url = "http://192.168.1.102:8080/Vegetable/upload/";
-    UserDao user;
+	private String url = API.COMMON_URL + "/Vegetable/upload/";
+	UserDao user;
 	HashMap<Integer, View> map = new HashMap<>();
 
 	public HotsaleAdapter(List<Good> listdata, Context context) {
@@ -38,7 +45,7 @@ public class HotsaleAdapter extends BaseAdapter {
 		this.listdata = listdata;
 		this.context = context;
 		this.layoutInflater = LayoutInflater.from(context);
-		this.user=new UserDao(context);
+		this.user = new UserDao(context);
 	}
 
 	@Override
@@ -57,6 +64,12 @@ public class HotsaleAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		// TODO 自动生成的方法存根
 		return position;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		// TODO 自动生成的方法存根
+		return false;
 	}
 
 	int count = 0;
@@ -81,8 +94,8 @@ public class HotsaleAdapter extends BaseAdapter {
 			convertView = map.get(position);
 			convertView.getTag();
 		}
-
-		holder.iv_hotsale_car.setOnClickListener(new myOnClick(position));
+		ViewHolder holder = (ViewHolder) convertView.getTag();
+		holder.iv_hotsale_car.setOnClickListener(new myOnClick(position,holder));
 		holder.tv_hotsale_name.setText(listdata.get(position).getGoodName());
 		holder.tv_hotsale_price.setText("￥"
 				+ listdata.get(position).getGoodPrice());
@@ -114,23 +127,37 @@ public class HotsaleAdapter extends BaseAdapter {
 
 	class myOnClick implements OnClickListener {
 		int position;
-
-		public myOnClick(int position) {
+ViewHolder holder;
+		public myOnClick(int position,ViewHolder holder) {
 			this.position = position;
+			this.holder = holder;
 		}
 
 		@Override
 		public void onClick(View v) {
 			// TODO 自动生成的方法存根
-			Good good=new Good();
-			good.setGoodName(listdata.get(position).getGoodName());
-			good.setGoodPrice(listdata.get(position).getGoodPrice());
-			good.setGoodImgPath(url+listdata.get(position).getGoodImgPath());
-			good.setGoodWeight(listdata.get(position).getGoodWeight());
-			good.setOneBoxWeight(listdata.get(position).getOneBoxWeight());
-			user.add(good);
-			if (onbuyListener != null) {
-				onbuyListener.onBuy();
+			Intent intent=new Intent();
+			if (SPutils.isLogin(context)) {
+			if (!user.query("goodName", listdata.get(position).getGoodName())) {
+				Good good = new Good();
+				good.setGoodName(listdata.get(position).getGoodName());
+				good.setGoodPrice(listdata.get(position).getGoodPrice());
+				good.setGoodImgPath(url
+						+ listdata.get(position).getGoodImgPath());
+				good.setGoodWeight(listdata.get(position).getGoodWeight());
+				good.setOneBoxWeight(listdata.get(position).getOneBoxWeight());
+				user.add(good);
+//				holder.iv_hotsale_car.setBackgroundColor(Color
+//						.parseColor("#000000"));
+				if (onbuyListener != null) {
+					onbuyListener.onBuy();
+				}
+			} else {
+				Toast.makeText(context, "请勿重复添加", Toast.LENGTH_SHORT).show();
+			}
+			}else {
+				intent.setClass(context, LoginActivity.class);
+				context.startActivity(intent);
 			}
 		}
 

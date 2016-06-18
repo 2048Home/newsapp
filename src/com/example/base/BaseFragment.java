@@ -35,7 +35,22 @@ public void onCreate(Bundle savedInstanceState) {
 		
 	}
 	
-	
+	/**
+	 * 获取我的地址
+	 * @param paramContext
+	 * @param url
+	 * @param name
+	 * @param paramMessenger
+	 */
+	public void get_address(Context paramContext,String url,	String name ,Messenger paramMessenger){
+		Intent intent=new Intent(paramContext,MyService.class);
+		intent.putExtra("url", url);
+		intent.putExtra("name", name);
+		intent.putExtra("api", API.ADDRESS_API);
+		intent.putExtra(API.ADDRESS_MESSAGE, paramMessenger);
+		paramContext.startService(intent);
+		
+	}
 	/**
 	 * 下订单
 	 * @param paramContext

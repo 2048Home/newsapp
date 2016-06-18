@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		listdata.add("222222");
 		listdata.add("333333");
 		listdata.add("444444");
-		sp_title.setVisibility(View.VISIBLE);
+//		sp_title.setVisibility(View.VISIBLE);
 		sa = new SpinnerAdapter(MainActivity.this, listdata);
 
 		sp_title.setAdapter(sa);
@@ -123,7 +123,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				switch (arg0) {
 				case 0:
 					tv_title.setText("全部商品");
-					sp_title.setVisibility(View.VISIBLE);
+//					sp_title.setVisibility(View.VISIBLE);
+					sp_title.setVisibility(View.GONE);
 					break;
 				case 1:
 					tv_title.setText("购物车");
@@ -155,7 +156,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		viewPager
 				.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
 		// viewPager.setOffscreenPageLimit(fragmentList.size());
-		viewPager.setOffscreenPageLimit(0);
+		viewPager.setOffscreenPageLimit(fragmentList.size());
 		viewPager.setCurrentItem(0);
 	}
 
@@ -173,10 +174,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onAddCar() {
 				// TODO 自动生成的方法存根
-				tv_count.setVisibility(View.VISIBLE);
-				List list = user.queryData();
-				// tv_count.setText(++index+"");
-				tv_count.setText(list.size() + "");
+//				tv_count.setVisibility(View.VISIBLE);
+//				List list = user.queryData();
+//				int i=user.queryData();
+//				tv_count.setText(list.size() + "");
+//				tv_count.setText(i + "");
 			}
 		});
 

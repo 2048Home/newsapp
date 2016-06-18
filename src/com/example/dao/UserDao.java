@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.example.bean.Good;
 import com.example.db.MyDataBase;
@@ -42,50 +43,81 @@ public class UserDao {
 	 * 查询
 	 */
 	public List<Good> queryData() {
+		int count = 0;
 		List<Good> list = new ArrayList<>();
 		db = helper.getWritableDatabase();
 		String[] columns = { "goodName", "goodPrice", "goodImgPath",
 				"goodWeight" };
 		Cursor c = db.query("Good", null, null, null, null, null, null);
 		if (c != null) {
-			if (c.moveToFirst()) {
+//			if (c.moveToFirst()) {
 				while (c.moveToNext()) {
-					Good good = new Good();
-					String goodName = c.getString(c.getColumnIndex("goodName"));
-					String goodPrice = c.getString(c
-							.getColumnIndex("goodPrice"));
-					String goodImgPath = c.getString(c
-							.getColumnIndex("goodImgPath"));
-					String goodWeight = c.getString(c
-							.getColumnIndex("goodWeight"));
-					String oneBoxWeight = c.getString(c
-							.getColumnIndex("oneBoxWeight"));
-					good.setGoodName(goodName);
-					good.setGoodPrice(goodPrice);
-					good.setGoodImgPath(goodImgPath);
-					good.setGoodWeight(goodWeight);
-					good.setOneBoxWeight(oneBoxWeight);
-					list.add(good);
-				}
+					 Good good = new Good();
+					 String goodName =
+					 c.getString(c.getColumnIndex("goodName"));
+					 String goodPrice = c.getString(c
+					 .getColumnIndex("goodPrice"));
+					 String goodImgPath = c.getString(c
+					 .getColumnIndex("goodImgPath"));
+					 String goodWeight = c.getString(c
+					 .getColumnIndex("goodWeight"));
+					 String oneBoxWeight = c.getString(c
+					 .getColumnIndex("oneBoxWeight"));
+					 good.setGoodName(goodName);
+					 good.setGoodPrice(goodPrice);
+					 good.setGoodImgPath(goodImgPath);
+					 good.setGoodWeight(goodWeight);
+					 good.setOneBoxWeight(oneBoxWeight);
+					 list.add(good);
+//				}
 			}
 		}
 		c.close();
 		db.close();
 		return list;
 	}
-	
+
 	/**
 	 * 删除所有
+	 * 
 	 * @param list
 	 */
-	public void deleteAll(){
-		db=helper.getWritableDatabase();
+	public void deleteAll() {
+		db = helper.getWritableDatabase();
 		db.delete("Good", null, null);
 		db.close();
 	}
-	public void deleteById(int id){
-		db=helper.getWritableDatabase();
-		db.delete("Good", "_id=?", new String[]{String.valueOf(id)});
+
+	/**
+	 * 根据ID删数据
+	 * 
+	 * @param id
+	 */
+	public void deleteById(int id) {
+		db = helper.getWritableDatabase();
+		db.delete("Good", "_id=?", new String[] { String.valueOf(id) });
 		db.close();
+	}
+
+	/**
+	 * @param dataKey
+	 *            需要查询的值对应的键名
+	 * @param data
+	 *            需要查询的值
+	 * @return
+	 */
+	public <T> boolean query(T dataKey, T data) {
+		db = helper.getWritableDatabase();
+		Cursor c = db.query("Good", new String[] { "goodName" },
+				dataKey + "=?", new String[] { (String) data }, null, null,
+				null);
+		if (c != null /*|| c.moveToFirst()*/) {
+			if (c.moveToNext()) {
+				db.close();
+				return true;
+			}
+		}
+		db.close();
+		return false;
 	}
 }

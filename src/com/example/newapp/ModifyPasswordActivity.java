@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.api.API;
 import com.example.base.BaseActivity;
@@ -36,12 +37,13 @@ public class ModifyPasswordActivity extends BaseActivity implements
 	 * 修改密码
 	 */
 	private EditText et_modify_password;
-	private  Handler handler = new Handler() {
+	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 
 			switch (msg.what) {
 			case InfoUtils.INFO_SUCCESS:
-
+				Toast.makeText(ModifyPasswordActivity.this, msg.obj.toString(),
+						Toast.LENGTH_SHORT).show();
 				break;
 
 			case InfoUtils.INFO_ERROR:
@@ -63,9 +65,9 @@ public class ModifyPasswordActivity extends BaseActivity implements
 	private void initView() {
 		// TODO 自动生成的方法存根
 		tv_back = (TextView) findViewById(R.id.tv_back);
-		et_username =  (EditText) findViewById(R.id.et_username);
+		et_username = (EditText) findViewById(R.id.et_username);
 		et_password = (EditText) findViewById(R.id.et_password);
-		et_modify_password=(EditText) findViewById(R.id.et_modify_password);
+		et_modify_password = (EditText) findViewById(R.id.et_modify_password);
 		login_in = (Button) findViewById(R.id.login_in);
 
 		tv_back.setOnClickListener(this);
@@ -90,9 +92,9 @@ public class ModifyPasswordActivity extends BaseActivity implements
 		case R.id.login_in:
 			String url = API.ChangPassword_URL;
 			get_change_password(ModifyPasswordActivity.this, url, et_username
-					.getText().toString(), et_password.getText().toString().trim(),
-					et_modify_password.getText().toString(), new Messenger(
-							handler));
+					.getText().toString(), et_password.getText().toString()
+					.trim(), et_modify_password.getText().toString(),
+					new Messenger(handler));
 			break;
 
 		default:

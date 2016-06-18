@@ -59,9 +59,9 @@ ViewHolder holder;
 			convertView.getTag();
 		}
 		holder.tv_name.setText(list.get(position).getGoodName());
-		holder.tv_singleprice.setText(list.get(position).getGoodPrice());
-		holder.tv_sumprice.setText(list.get(position).getGoodSum());
-		holder.tv_weight.setText(list.get(position).getGoodWeight());
+		holder.tv_singleprice.setText("单价："+list.get(position).getGoodPrice());
+		holder.tv_weight.setText("重量："+list.get(position).getGoodWeight());
+		holder.tv_sumprice.setText("合计："+list.get(position).getGoodSum());
 		holder.tv_priceKind.setText(list.get(position).getPriceKind());
 		
 		return convertView;
