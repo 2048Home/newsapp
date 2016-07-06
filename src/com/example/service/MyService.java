@@ -91,11 +91,16 @@ public class MyService extends IntentService {
 		case API.ADDRESS_API:
 			get_address(intent);
 			break;
+		case API.CONFIRM_ORDER:
+			get_confirm(intent);
+			break;
 
 		default:
 			break;
 		}
 	}
+
+	
 
 	@SuppressWarnings("unchecked")
 	private void sendMsgToAct(Intent paramIntent, int paramInt,
@@ -138,6 +143,10 @@ public class MyService extends IntentService {
 				localMessenger = (Messenger) localBundle1
 						.get(API.ADDRESS_MESSAGE);
 				break;
+			case API.CONFIRM_ORDER:
+				localMessenger = (Messenger) localBundle1
+				.get(API.CONFIRM_ORDER_MESSAGE);
+				break;
 			default:
 				break;
 			}
@@ -164,7 +173,39 @@ public class MyService extends IntentService {
 		}
 
 	}
-
+	private void get_confirm(Intent intent) {
+		// TODO 自动生成的方法存根
+		String url = intent.getStringExtra("url");
+		String orderId="orderId="+intent.getStringExtra("orderId");
+		String state="goodState="+intent.getStringExtra("goodState");
+		String[] str={orderId,state};
+		String URL=url+setUrl(str);
+		try {
+			String json=HttpConnectUtils.httpConncet(URL);
+			sendMsgToAct(intent, InfoUtils.GET_SUCCESS, json.toString(), null);
+		} catch (HttpHostConnectException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (ConnectTimeoutException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (SocketTimeoutException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 获取地址
 	 * 
@@ -357,10 +398,10 @@ public class MyService extends IntentService {
 		// TODO 自动生成的方法存根
 		String url = intent.getStringExtra("url");
 		String name = "userName=" + intent.getStringExtra("userName");
-//		String address = "address=" + intent.getStringExtra("address");
-		String address = "address=" + "address";
+		String address = "address=" + intent.getStringExtra("address");
+		String reMark="message="+intent.getStringExtra("reMark");
 		String jsondata = "json=" + intent.getStringExtra("jsondata");
-		String[] str = new String[] { name, address, jsondata };
+		String[] str = new String[] { name, address, reMark,jsondata };
 		String URL = url + setUrl(str);
 		Log.d(MyApplication.TAG,URL);
 		// String URL = url ;

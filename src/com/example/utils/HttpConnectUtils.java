@@ -44,8 +44,8 @@ public class HttpConnectUtils {
 		// ----------new start-----------
 		HttpURLConnection httpURLConnection = (HttpURLConnection) url
 				.openConnection();
-		httpURLConnection.setConnectTimeout(3000);
-		httpURLConnection.setReadTimeout(3000);
+		httpURLConnection.setConnectTimeout(10000);
+		httpURLConnection.setReadTimeout(10000);
 		httpURLConnection.connect();
 		if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 			InputStream stream = httpURLConnection.getInputStream();

@@ -46,6 +46,8 @@ public class ShoppingCarAdapter extends BaseAdapter {
 	UserDao user;
 	private String single = "单价：";
 
+	
+
 	public ShoppingCarAdapter(List<Good> listdata, Context context) {
 		super();
 		this.listdata = listdata;
@@ -53,6 +55,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 		this.layoutInflater = LayoutInflater.from(context);
 		this.user = new UserDao(context);
 	}
+
 
 	@Override
 	public int getCount() {
@@ -119,7 +122,6 @@ public class ShoppingCarAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-
 	class ViewHolder {
 		private TextView tv_name;
 		private TextView tv_single_price;

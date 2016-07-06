@@ -4,5 +4,12 @@
     <string name="app_name">菜天下</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string-array name="spinner">
+        <item >11111111</item>
+        <item >2222222</item>
+        <item >3333</item>
+        <item >444444</item>
+        
+    </string-array>
 
 </resources>

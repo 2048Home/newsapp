@@ -15,6 +15,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adapter.HotsaleAdapter;
@@ -51,6 +52,8 @@ public class Fragment01 extends BaseFragment {
 				break;
 
 			case InfoUtils.INFO_ERROR:
+				index-=10;
+				getData();
 				Toast.makeText(getActivity(), msg.obj.toString(),
 						Toast.LENGTH_SHORT).show();
 				break;
@@ -71,6 +74,7 @@ public class Fragment01 extends BaseFragment {
 		// TODO 自动生成的方法存根
 		getData();
 		gv_hot_sale = (GridView) view.findViewById(R.id.gv_hot_sale);
+		TextView tv_phone=(TextView) view.findViewById(R.id.tv_phone);
 		// Good good = new Good();
 		// good.setGoodImgPath("");
 		// good.setGoodName("asdhakj");

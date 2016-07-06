@@ -1,5 +1,7 @@
 package com.example.newapp.fragment;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import org.json.JSONException;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -102,7 +105,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 		getAddress();
 		// TODO 自动生成的方法存根
 		userSp = getActivity().getSharedPreferences("UserInfo",
-				getActivity().MODE_PRIVATE);
+				Context.MODE_PRIVATE);
 		shopping_car = (ListView) view.findViewById(R.id.shopping_car);
 
 		tv_totalprice = (TextView) view.findViewById(R.id.tv_totalprice);
@@ -151,11 +154,11 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 					count += price;
 					// count=price;
 					// Log.d(MyApplication.TAG, count+"");
-					 user.Updata(
-					 "Good",
-					 "goodWeight",
-					 number,
-					 new String[] { listdata.get(position).getGoodName() });
+					user.Updata(
+							"Good",
+							"goodWeight",
+							number,
+							new String[] { listdata.get(position).getGoodName() });
 					// Log.d(MyApplication.TAG,
 					// listdata.get(position).getGoodName());
 					tv_totalprice.setText(Total + String.valueOf(count));
@@ -164,9 +167,9 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 						count -= price;
 						// count=price;
 						// Log.d(MyApplication.TAG, count+"");
-						 user.Updata("Good", "goodWeight", number,
-						 new String[] { listdata.get(position)
-						 .getGoodName() });
+						user.Updata("Good", "goodWeight", number,
+								new String[] { listdata.get(position)
+										.getGoodName() });
 
 						tv_totalprice.setText(Total + String.valueOf(count));
 					}
@@ -218,14 +221,21 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 	public void setOrder(String address) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		final EditText edit = new EditText(getActivity());
-		ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
-		edit.setLayoutParams(lp);
-		edit.setBackground(null);
-		edit.setText(address == null ? "" : address);
-		builder.setMessage("请核实地址").setView(edit)
+		// final EditText edit = new EditText(getActivity());
+		// ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+		// ViewGroup.LayoutParams.WRAP_CONTENT,
+		// ViewGroup.LayoutParams.WRAP_CONTENT);
+		// edit.setLayoutParams(lp);
+		// edit.setBackground(null);
+		// edit.setText(address == null ? "" : address);
+		View view = getActivity().getLayoutInflater().inflate(
+				R.layout.request_order, null);
+		final EditText et_order_address = (EditText) view
+				.findViewById(R.id.et_order_address);
+		et_order_address.setText(address == null ? "" : address);
+		final EditText et_order_remark = (EditText) view
+				.findViewById(R.id.et_order_remark);
+		builder.setMessage("请核实地址及填写备注").setView(view)
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 					@Override
@@ -244,9 +254,17 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 						list = user.queryData();
 						try {
 							String json = JsonUtils.setJsonData(list);
-							set_order_info(getActivity(), url, SPutils
-									.getUserName(getActivity()), edit.getText()
-									.toString(), json, new Messenger(handler));
+							try {
+								set_order_info(getActivity(), url,
+										SPutils.getUserName(getActivity()),
+										URLEncoder.encode(et_order_address.getText().toString().trim(),"UTF-8")
+											, et_order_remark.getText()
+												.toString().trim(), json,
+										new Messenger(handler));
+							} catch (UnsupportedEncodingException e) {
+								// TODO 自动生成的 catch 块
+								e.printStackTrace();
+							}
 
 							user.deleteAll();
 							listdata.clear();

@@ -1,9 +1,13 @@
 package com.example.newapp;
 
 import java.io.ObjectInputStream.GetField;
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
+import java.net.URLEncoder;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,8 +44,10 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private Button login_in;
 	/**
 	 * 地址信息
-	 */
+	 */	
 	private EditText et_address;
+	SharedPreferences userSp;
+	Editor edit;
 
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -49,6 +55,18 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			case InfoUtils.INFO_SUCCESS:
 				Toast.makeText(RegisterActivity.this, msg.obj.toString(),
 						Toast.LENGTH_SHORT).show();
+				  if(msg.obj.equals("error")){
+		        	  Toast.makeText(RegisterActivity.this, InfoUtils.LOGIN_ERROR, Toast.LENGTH_SHORT).show();
+		          }else {
+		        	  Toast.makeText(RegisterActivity.this, InfoUtils.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
+		        	  edit.putString("username", et_username.getText().toString().trim());
+		        	  edit.putString("password", et_password.getText().toString().trim());
+		        	  edit.putBoolean("isLogin", true);
+		        	  edit.commit();
+		        	  finish();
+		          }
+				
+				
 				break;
 
 			case InfoUtils.INFO_ERROR:
@@ -74,6 +92,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 	private void initView() {
 		// TODO 自动生成的方法存根
+		userSp=getSharedPreferences("UserInfo", MODE_PRIVATE);
+		edit=userSp.edit();
 		tv_back = (TextView) findViewById(R.id.tv_back);
 		et_username = (EditText) findViewById(R.id.et_username);
 		et_password = (EditText) findViewById(R.id.et_password);
@@ -101,11 +121,19 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			break;
 		case R.id.login_in:
 			String url = API.REGISTER_URL;
-			get_register_in(RegisterActivity.this, url, et_username.getText()
-					.toString().trim(),
-					et_password.getText().toString().trim(), et_address
-							.getText().toString().trim(), "", new Messenger(
-							handler));
+			try {
+				get_register_in(RegisterActivity.this, url, et_username.getText()
+						.toString().trim(),
+						et_password.getText().toString().trim(), URLEncoder.encode(et_address
+								.getText().toString().trim(),"UTF-8"), "", new Messenger(
+								handler));
+			} catch (UnsupportedEncodingException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			
+			
+		
 			break;
 
 		default:

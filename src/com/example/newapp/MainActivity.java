@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,29 +89,30 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void initSpinner() {
 		// TODO 自动生成的方法存根
-		listdata = new ArrayList<>();
-		listdata.add("111111");
-		listdata.add("222222");
-		listdata.add("333333");
-		listdata.add("444444");
+		// listdata = new ArrayList<>();
+		// listdata.add("111111");
+		// listdata.add("222222");
+		// listdata.add("333333");
+		// listdata.add("444444");
 //		sp_title.setVisibility(View.VISIBLE);
-		sa = new SpinnerAdapter(MainActivity.this, listdata);
-
-		sp_title.setAdapter(sa);
-		sp_title.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO 自动生成的方法存根
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO 自动生成的方法存根
-
-			}
-		});
+		// sa = new SpinnerAdapter(MainActivity.this, listdata);
+//		ArrayAdapter adapter = new ArrayAdapter<>(MainActivity.this,
+//				android.R.layout.simple_list_item_1);
+//		sp_title.setAdapter(adapter);
+		// sp_title.setOnItemSelectedListener(new OnItemSelectedListener() {
+		//
+		// @Override
+		// public void onItemSelected(AdapterView<?> parent, View view,
+		// int position, long id) {
+		// // TODO 自动生成的方法存根
+		// }
+		//
+		// @Override
+		// public void onNothingSelected(AdapterView<?> parent) {
+		// // TODO 自动生成的方法存根
+		//
+		// }
+		// });
 	}
 
 	private void initViewPager() {
@@ -123,7 +125,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				switch (arg0) {
 				case 0:
 					tv_title.setText("全部商品");
-//					sp_title.setVisibility(View.VISIBLE);
+					// sp_title.setVisibility(View.VISIBLE);
 					sp_title.setVisibility(View.GONE);
 					break;
 				case 1:
@@ -174,11 +176,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onAddCar() {
 				// TODO 自动生成的方法存根
-//				tv_count.setVisibility(View.VISIBLE);
-//				List list = user.queryData();
-//				int i=user.queryData();
-//				tv_count.setText(list.size() + "");
-//				tv_count.setText(i + "");
+				// tv_count.setVisibility(View.VISIBLE);
+				// List list = user.queryData();
+				// int i=user.queryData();
+				// tv_count.setText(list.size() + "");
+				// tv_count.setText(i + "");
 			}
 		});
 

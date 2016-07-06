@@ -4,7 +4,7 @@ package com.example.api;
 public class API {
 	
 //	public final static String COMMON_URL="http://120.25.166.191";
-	public final static String COMMON_URL="http://192.168.1.102:8080";
+	public final static String COMMON_URL="http://192.168.31.180:8080";
     //展示商品
 	public  final static int HOTSALE_API=123; 
 	public  final static String HOTSALE_URL=COMMON_URL+"/Vegetable/servlet/goodShowServlet?"; 
@@ -45,4 +45,9 @@ public class API {
 	public  final static int CHANGE_ADDRESS_API=612; 
 	public  final static String CHANGE_ADDRESS_URL=COMMON_URL+"/Vegetable/servlet/ChangAddressServlet?"; 
 	public  final static String CHANGE_ADDRESS_MESSAGE="com.example.changeaddress"; 
+	
+	//确认收货
+	public final static int CONFIRM_ORDER=710;
+	public final static String CONFIRM_ORDER_URL=COMMON_URL+"/Vegetable/servlet/ConfirmGood?";
+	public final static String CONFIRM_ORDER_MESSAGE="com.example.confirmorder";
 }

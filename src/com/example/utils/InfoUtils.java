@@ -13,5 +13,7 @@ public class InfoUtils {
 	//修改密码
 	public static final int CHANGE_ADDRESS_SUCCESS=136;
 	public static final int CHANGE_ADDRESS_ERROR=137;
-	
+	//收货
+	public static final int GET_SUCCESS=138;
+	public static final int GET_ERROR=139;
 }
