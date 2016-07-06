@@ -4,7 +4,11 @@ package com.example.api;
 public class API {
 	
 //	public final static String COMMON_URL="http://120.25.166.191";
+<<<<<<< HEAD
 	public final static String COMMON_URL="http://192.168.31.180:8080";
+=======
+	public final static String COMMON_URL="http://192.168.1.112:8080";
+>>>>>>> 7f234b16872d9102b63f238b1627ed8d3b77f126
     //展示商品
 	public  final static int HOTSALE_API=123; 
 	public  final static String HOTSALE_URL=COMMON_URL+"/Vegetable/servlet/goodShowServlet?"; 
