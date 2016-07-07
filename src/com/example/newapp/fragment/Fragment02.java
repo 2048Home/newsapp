@@ -7,8 +7,19 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import com.example.adapter.ShoppingCarAdapter;
+import com.example.adapter.ShoppingCarAdapter.onJianListener;
+import com.example.api.API;
+import com.example.base.BaseFragment;
+import com.example.bean.Good;
+import com.example.dao.UserDao;
+import com.example.newapp.LoginActivity;
+import com.example.newapp.R;
+import com.example.utils.InfoUtils;
+import com.example.utils.JsonUtils;
+import com.example.utils.SPutils;
+
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,33 +32,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.adapter.ShoppingCarAdapter;
-import com.example.adapter.ShoppingCarAdapter.onJianListener;
-import com.example.api.API;
-import com.example.base.BaseFragment;
-import com.example.bean.Good;
-import com.example.dao.UserDao;
-import com.example.myapplication.MyApplication;
-import com.example.newapp.LoginActivity;
-import com.example.newapp.NewAddressActivity;
-import com.example.newapp.R;
-import com.example.utils.InfoUtils;
-import com.example.utils.JsonUtils;
-import com.example.utils.SPutils;
 
 /**
  * @作者 陈籽屹
  * @时间 2016年5月30日 购物车
  */
 public class Fragment02 extends BaseFragment implements OnClickListener {
+	protected static final String TAG = "Fragment02";
 	private View view;
 	private ListView shopping_car;
 	private List<Good> listdata;
@@ -65,21 +61,21 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 	 */
 	private Button btn_buy;
 	private String Total = "合计：";
-	String address;
+	private String address;
 
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case InfoUtils.INFO_SUCCESS:
 				address = msg.obj.toString();
+				Log.d(TAG, "传入购物车地址：" + msg.obj.toString());
 				break;
 
 			case InfoUtils.INFO_ERROR:
 
 				break;
 			case InfoUtils.SET_ORDER_SUCCESS:
-				Toast.makeText(getActivity(), msg.obj.toString(),
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
 				break;
 			case InfoUtils.SET_ORDER_ERROR:
 
@@ -90,8 +86,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 	};
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO 自动生成的方法存根
 		view = inflater.inflate(R.layout.shopping_car, null);
 		intiView();
@@ -102,10 +97,9 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 
 	private void intiView() {
 		user = new UserDao(getActivity());
-		getAddress();
+		// getAddress();
 		// TODO 自动生成的方法存根
-		userSp = getActivity().getSharedPreferences("UserInfo",
-				Context.MODE_PRIVATE);
+		userSp = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		shopping_car = (ListView) view.findViewById(R.id.shopping_car);
 
 		tv_totalprice = (TextView) view.findViewById(R.id.tv_totalprice);
@@ -154,11 +148,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 					count += price;
 					// count=price;
 					// Log.d(MyApplication.TAG, count+"");
-					user.Updata(
-							"Good",
-							"goodWeight",
-							number,
-							new String[] { listdata.get(position).getGoodName() });
+					user.Updata("Good", "goodWeight", number, new String[] { listdata.get(position).getGoodName() });
 					// Log.d(MyApplication.TAG,
 					// listdata.get(position).getGoodName());
 					tv_totalprice.setText(Total + String.valueOf(count));
@@ -168,8 +158,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 						// count=price;
 						// Log.d(MyApplication.TAG, count+"");
 						user.Updata("Good", "goodWeight", number,
-								new String[] { listdata.get(position)
-										.getGoodName() });
+								new String[] { listdata.get(position).getGoodName() });
 
 						tv_totalprice.setText(Total + String.valueOf(count));
 					}
@@ -192,6 +181,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 		case R.id.btn_buy:
 
 			if (SPutils.isLogin(getActivity())) {
+				getAddress();
 				setOrder(address);
 			} else {
 				Intent intent = new Intent();
@@ -210,8 +200,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 	 */
 	public void getAddress() {
 		String url = API.ADDRESS_URL;
-		String userName = userSp != null ? userSp.getString("username", "")
-				: "";
+		String userName = userSp != null ? userSp.getString("username", "") : "";
 		get_address(getActivity(), url, userName, new Messenger(handler));
 	}
 
@@ -221,62 +210,55 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 	public void setOrder(String address) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		// final EditText edit = new EditText(getActivity());
-		// ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
-		// ViewGroup.LayoutParams.WRAP_CONTENT,
-		// ViewGroup.LayoutParams.WRAP_CONTENT);
-		// edit.setLayoutParams(lp);
-		// edit.setBackground(null);
-		// edit.setText(address == null ? "" : address);
-		View view = getActivity().getLayoutInflater().inflate(
-				R.layout.request_order, null);
-		final EditText et_order_address = (EditText) view
-				.findViewById(R.id.et_order_address);
+		View view = getActivity().getLayoutInflater().inflate(R.layout.request_order, null);
+		final EditText et_order_address = (EditText) view.findViewById(R.id.et_order_address);
+		Log.d(TAG, "下订单：" + address);
 		et_order_address.setText(address == null ? "" : address);
-		final EditText et_order_remark = (EditText) view
-				.findViewById(R.id.et_order_remark);
-		builder.setMessage("请核实地址及填写备注").setView(view)
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+		final EditText et_order_remark = (EditText) view.findViewById(R.id.et_order_remark);
+		builder.setMessage("请核实地址及填写备注").setView(view).setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO 自动生成的方法存根
-						dialog.dismiss();
-					};
-				})
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO 自动生成的方法存根
+				dialog.dismiss();
+			};
+		}).setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO 自动生成的方法存根
-						List<Good> list = new ArrayList<>();
-						String url = API.RequestOrder_URL;
-						list = user.queryData();
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO 自动生成的方法存根
+				List<Good> list = new ArrayList<>();
+				String url = API.RequestOrder_URL;
+				list = user.queryData();
+				String userAddress = et_order_address.getText().toString().trim();
+				try {
+					String json = JsonUtils.setJsonData(list);
+					if (list.size() != 0 && !userAddress.equals("")) {
 						try {
-							String json = JsonUtils.setJsonData(list);
-							try {
-								set_order_info(getActivity(), url,
-										SPutils.getUserName(getActivity()),
-										URLEncoder.encode(et_order_address.getText().toString().trim(),"UTF-8")
-											, et_order_remark.getText()
-												.toString().trim(), json,
-										new Messenger(handler));
-							} catch (UnsupportedEncodingException e) {
-								// TODO 自动生成的 catch 块
-								e.printStackTrace();
-							}
-
-							user.deleteAll();
-							listdata.clear();
-							tv_totalprice.setText("合计：" + 0);
-							shoppingCarAdapter.notifyDataSetChanged();
-						} catch (JSONException e) {
-							// TODO 自动生成的 catch 块
+							System.out.println("userAddress" + userAddress);
+							set_order_info(getActivity(), url, SPutils.getUserName(getActivity()),
+									URLEncoder.encode(userAddress, "UTF-8"),
+									URLEncoder.encode(et_order_remark.getText().toString().trim(), "UTF-8"), json,
+									new Messenger(handler));
+						} catch (UnsupportedEncodingException e) {
 							e.printStackTrace();
 						}
+						user.deleteAll();
+						listdata.clear();
+						tv_totalprice.setText("合计：" + 0);
+						shoppingCarAdapter.notifyDataSetChanged();
+					} else if (userAddress.equals("")) {
+						Toast.makeText(getActivity(), "亲，请填写送货地址哦", Toast.LENGTH_LONG).show();
+					} else if (list.size() == 0) {
+						Toast.makeText(getActivity(), "亲，选择商品哦", Toast.LENGTH_LONG).show();
 					}
+				} catch (JSONException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+			}
 
-				}).setCancelable(false).create().show();
+		}).setCancelable(false).create().show();
 		;
 	}
 }
