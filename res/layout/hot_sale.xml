@@ -7,7 +7,7 @@
 
     <com.example.newapp.MyView
         android:id="@+id/tv_phone"
-        android:layout_width="220dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:scrollHorizontally="true"

@@ -16,11 +16,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.api.API;
+import com.example.bean.Goods;
 import com.example.bean.Order;
 import com.example.newapp.R;
 import com.example.service.MyService;
 
-public class MyOrderAdapter extends BaseAdapter {
+public class MyOrderAdapter1 extends BaseAdapter {
 	private List<Order> list;
 	private LayoutInflater inflater;
 	private Context context;
@@ -28,7 +29,7 @@ public class MyOrderAdapter extends BaseAdapter {
 
 	// ViewHolder holder;
 
-	public MyOrderAdapter(List<Order> list, Handler handler, Context context) {
+	public MyOrderAdapter1(List<Order> list, Handler handler, Context context) {
 		super();
 		this.list = list;
 		this.context = context;
@@ -71,28 +72,28 @@ public class MyOrderAdapter extends BaseAdapter {
 					.findViewById(R.id.tv_sumprice);
 			holder.tv_priceKind = (TextView) convertView
 					.findViewById(R.id.tv_priceKind);
-			holder.btn_confirm = (Button) convertView
-					.findViewById(R.id.btn_confirm);
+//			holder.btn_confirm = (Button) convertView
+//					.findViewById(R.id.btn_confirm);
 			convertView.setTag(holder);
 
 		} else {
 			convertView = map.get(position);
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.tv_name.setText(list.get(position).getGoodName());
-		holder.tv_singleprice
-				.setText("单价：" + list.get(position).getGoodPrice());
-		holder.tv_weight.setText("重量：" + list.get(position).getGoodWeight());
-		holder.tv_sumprice.setText("合计：" + list.get(position).getGoodSum());
-		holder.tv_priceKind.setText(list.get(position).getPriceKind());
-		holder.btn_confirm.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO 自动生成的方法存根
-				confirmOrder(position);
-			}
-		});
+		holder.tv_name.setText(list.get(position).getGoods().get(position).getGoodName());
+//		holder.tv_singleprice
+//				.setText("单价：" + list.get(position).getGoodPrice());
+//		holder.tv_weight.setText("重量：" + list.get(position).getGoodWeight());
+//		holder.tv_sumprice.setText("合计：" + list.get(position).getGoodSum());
+		// holder.tv_priceKind.setText(list.get(position).getPriceKind());
+//		holder.btn_confirm.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO 自动生成的方法存根
+//				confirmOrder(position);
+//			}
+//		});
 
 		return convertView;
 	}
@@ -103,7 +104,7 @@ public class MyOrderAdapter extends BaseAdapter {
 		TextView tv_singleprice;// 单价
 		TextView tv_sumprice;// 总价
 		TextView tv_priceKind;// 类
-		Button btn_confirm;
+//		Button btn_confirm;
 	}
 
 	// http:// 120.25.166.191/Vegetable/servlet/ ConfirmGood?orderId=xx &

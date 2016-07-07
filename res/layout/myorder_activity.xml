@@ -7,11 +7,16 @@
     <include 
         layout="@layout/title_bar"
         />
-<ListView
+<!-- <ListView
     android:id="@+id/lv_myorder"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
     
-</ListView>
+</ListView> -->
+<ExpandableListView 
+    android:id="@+id/lv_myorder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    ></ExpandableListView>
 </LinearLayout>
