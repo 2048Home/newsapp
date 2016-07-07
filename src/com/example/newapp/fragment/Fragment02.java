@@ -258,8 +258,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 								set_order_info(getActivity(), url,
 										SPutils.getUserName(getActivity()),
 										URLEncoder.encode(et_order_address.getText().toString().trim(),"UTF-8")
-											, et_order_remark.getText()
-												.toString().trim(), json,
+											, URLEncoder.encode(et_order_remark.getText().toString().trim(),"UTF-8"), json,
 										new Messenger(handler));
 							} catch (UnsupportedEncodingException e) {
 								// TODO 自动生成的 catch 块
