@@ -25,6 +25,7 @@ import android.util.Log;
 import com.example.api.API;
 import com.example.bean.Address;
 import com.example.bean.Good;
+import com.example.bean.Goods;
 import com.example.bean.Order;
 import com.example.myapplication.MyApplication;
 import com.example.utils.HttpConnectUtils;
@@ -346,25 +347,20 @@ public class MyService extends IntentService {
 		try {
 			String json = HttpConnectUtils.httpConncet(URL);
 			
-			List<Order> templist=new ArrayList<>();
-            JSONArray jaab=new JSONArray(json);
-            for(int x=0;x<jaab.length();x++){
-			JSONArray ja=(JSONArray) jaab.get(x);
-			String jsonstr=ja.toString();
+//			List<Order> templist=new ArrayList<>();
+//            JSONArray jaab=new JSONArray(json);
+//            for(int x=0;x<jaab.length();x++){
+//			JSONArray ja=(JSONArray) jaab.get(x);
+//			String jsonstr=ja.toString();
 			JosnOper jp=new JosnOper();
-			list=jp.ConvertJsonToArray(jsonstr, new TypeToken<List<Order>>(){}.getType());
-			for(int i=0;i<list.size();i++){
-				Order order=new Order();
-				order.setGoodName(list.get(i).getGoodName());
-				order.setGoodPrice(list.get(i).getGoodPrice());
-				order.setGoodSum(list.get(i).getGoodSum());
-				order.setGoodWeight(list.get(i).getGoodWeight());
-				order.setOrderId(list.get(i).getOrderId());
-				order.setPriceKind(list.get(i).getPriceKind());
-				templist.add(order);
-			}
-            }
-			sendMsgToAct(intent, InfoUtils.INFO_SUCCESS, "", templist);
+			list=jp.ConvertJsonToArray(json, new TypeToken<List<Order>>(){}.getType());
+//			for(int i=0;i<list.size();i++){
+//				Goods goods=new Goods();
+//				goods.setGoodName(list.get(i).getGoods().get(i).getGoodName());
+//				templist.add(order);
+//			}
+//            }
+			sendMsgToAct(intent, InfoUtils.INFO_SUCCESS, "", list);
 		} catch (HttpHostConnectException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
