@@ -95,7 +95,15 @@ public class HotsaleAdapter extends BaseAdapter {
 			convertView.getTag();
 		}
 		ViewHolder holder = (ViewHolder) convertView.getTag();
-		holder.iv_hotsale_car.setOnClickListener(new myOnClick(position,holder));
+		holder.iv_hotsale_car
+				.setOnClickListener(new myOnClick(position, holder));
+		if (user.query("goodName", listdata.get(position)
+				.getGoodName())){
+
+			holder.iv_hotsale_car.setBackgroundResource(R.drawable.shoppingcar);
+		}else {
+			holder.iv_hotsale_car.setBackgroundResource(R.drawable.shoppingcar_nomal);
+		}
 		holder.tv_hotsale_name.setText(listdata.get(position).getGoodName());
 		holder.tv_hotsale_price.setText("￥"
 				+ listdata.get(position).getGoodPrice());
@@ -127,8 +135,9 @@ public class HotsaleAdapter extends BaseAdapter {
 
 	class myOnClick implements OnClickListener {
 		int position;
-ViewHolder holder;
-		public myOnClick(int position,ViewHolder holder) {
+		ViewHolder holder;
+
+		public myOnClick(int position, ViewHolder holder) {
 			this.position = position;
 			this.holder = holder;
 		}
@@ -136,26 +145,28 @@ ViewHolder holder;
 		@Override
 		public void onClick(View v) {
 			// TODO 自动生成的方法存根
-			Intent intent=new Intent();
+			Intent intent = new Intent();
 			if (SPutils.isLogin(context)) {
-			if (!user.query("goodName", listdata.get(position).getGoodName())) {
-				Good good = new Good();
-				good.setGoodName(listdata.get(position).getGoodName());
-				good.setGoodPrice(listdata.get(position).getGoodPrice());
-				good.setGoodImgPath(url
-						+ listdata.get(position).getGoodImgPath());
-				good.setGoodWeight(listdata.get(position).getGoodWeight());
-				good.setOneBoxWeight(listdata.get(position).getOneBoxWeight());
-				user.add(good);
-//				holder.iv_hotsale_car.setBackgroundColor(Color
-//						.parseColor("#000000"));
-				if (onbuyListener != null) {
-					onbuyListener.onBuy();
+				if (!user.query("goodName", listdata.get(position)
+						.getGoodName())) {
+					Good good = new Good();
+					good.setGoodName(listdata.get(position).getGoodName());
+					good.setGoodPrice(listdata.get(position).getGoodPrice());
+					good.setGoodImgPath(url
+							+ listdata.get(position).getGoodImgPath());
+					good.setGoodWeight(listdata.get(position).getGoodWeight());
+					good.setOneBoxWeight(listdata.get(position)
+							.getOneBoxWeight());
+					user.add(good);
+					 holder.iv_hotsale_car.setBackgroundResource(R.drawable.shoppingcar);
+					if (onbuyListener != null) {
+						onbuyListener.onBuy();
+					}
+				} else {
+					Toast.makeText(context, "请勿重复添加", Toast.LENGTH_SHORT)
+							.show();
 				}
 			} else {
-				Toast.makeText(context, "请勿重复添加", Toast.LENGTH_SHORT).show();
-			}
-			}else {
 				intent.setClass(context, LoginActivity.class);
 				context.startActivity(intent);
 			}

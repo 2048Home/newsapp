@@ -52,7 +52,7 @@ public class Fragment01 extends BaseFragment {
 				break;
 
 			case InfoUtils.INFO_ERROR:
-				index-=10;
+				index -= 10;
 				getData();
 				Toast.makeText(getActivity(), msg.obj.toString(),
 						Toast.LENGTH_SHORT).show();
@@ -74,7 +74,7 @@ public class Fragment01 extends BaseFragment {
 		// TODO 自动生成的方法存根
 		getData();
 		gv_hot_sale = (GridView) view.findViewById(R.id.gv_hot_sale);
-		TextView tv_phone=(TextView) view.findViewById(R.id.tv_phone);
+		TextView tv_phone = (TextView) view.findViewById(R.id.tv_phone);
 		// Good good = new Good();
 		// good.setGoodImgPath("");
 		// good.setGoodName("asdhakj");
@@ -126,10 +126,17 @@ public class Fragment01 extends BaseFragment {
 
 	public void getData() {
 		String url = API.HOTSALE_URL;
-//		int number = index+9;
-		get_hotsale_info(getActivity(), url, index + "", new Messenger(
-				mhandler));
-		index+=10;
+		// int number = index+9;
+		get_hotsale_info(getActivity(), url, index + "",
+				new Messenger(mhandler));
+		index += 10;
+	}
+
+	@Override
+	public void onStart() {
+		// TODO 自动生成的方法存根
+		super.onStart();
+	hotsaleAdapter.notifyDataSetChanged();
 	}
 
 	public interface onCarListener {
@@ -141,8 +148,6 @@ public class Fragment01 extends BaseFragment {
 	public void setonCarListener(onCarListener oncListener) {
 		this.oncListener = oncListener;
 	}
-
-
 
 	@Override
 	public void onDestroy() {

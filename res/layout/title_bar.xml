@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:background="@drawable/hotsale_head"
+    android:background="@drawable/shoppingcartop"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -25,6 +25,7 @@
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
             android:text="全部商品"
+            android:textColor="#ffffff"
             android:textSize="19dp" />
 
         <Spinner

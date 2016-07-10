@@ -2,20 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   
     android:orientation="vertical" >
 
     <ImageView
-         android:layout_marginTop="5dp"
         android:id="@+id/iv_hotsale_item"
         android:layout_width="100dp"
         android:layout_height="70dp"
-        android:layout_gravity="center_horizontal"
-        />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp" >
 
         <TextView
             android:id="@+id/tv_hotsale_price"
@@ -23,21 +22,24 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="￥:4.8" />
+            android:text="￥:4.8"
+            android:textColor="#025900" />
 
         <ImageView
             android:id="@+id/iv_hotsale_car"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:src="@android:drawable/btn_star" />
+            android:layout_marginRight="20dp"
+            android:src="@drawable/shoppingcar_nomal" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_hotsale_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="蒜苗 500g" />
+        android:layout_marginLeft="30dp"
+        android:text="蒜苗 500g"
+        android:textColor="#777777" />
 
 </LinearLayout>

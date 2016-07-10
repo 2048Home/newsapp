@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@drawable/mine_bottom"
+    android:background="#b8b5ac"
+    
     android:orientation="horizontal" >
 
     <TextView
@@ -10,7 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawableTop="@android:drawable/ic_menu_edit"
+        android:textColor="#8c8b88"
+        android:drawableTop="@drawable/hotsale"
         android:gravity="center_horizontal"
         android:text="热销商品" />
 
@@ -24,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:drawableTop="@android:drawable/ic_menu_edit"
+             android:textColor="#8c8b88"
+            android:drawableTop="@drawable/shoppingcar_nomal"
             android:gravity="center_horizontal"
             android:text="购物车" />
 
@@ -44,8 +47,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawableTop="@android:drawable/ic_menu_edit"
+        android:drawableTop="@drawable/my_normal"
         android:gravity="center_horizontal"
+         android:textColor="#8c8b88"
         android:text="我的" />
 
 </LinearLayout>

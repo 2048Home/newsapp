@@ -3,18 +3,23 @@ package com.example.newapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Messenger;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +28,7 @@ import com.example.api.API;
 import com.example.base.BaseActivity;
 import com.example.bean.Goods;
 import com.example.bean.Order;
+import com.example.myapplication.MyApplication;
 import com.example.service.MyService;
 import com.example.utils.InfoUtils;
 
@@ -43,6 +49,9 @@ public class MyOrderActivity extends BaseActivity {
 						.getParcelableArrayList("list").get(0);
 				list.addAll(templist);
 				for (int i = 0; i < list.size(); i++) {
+					cGoods.put(list.get(i).getOrderId(), list.get(i).getGoods());
+				}
+				for (int i = 0; i < list.size(); i++) {
 					lv_myorder.expandGroup(i);
 				}
 				adapter.notifyDataSetChanged();
@@ -56,7 +65,7 @@ public class MyOrderActivity extends BaseActivity {
 				Toast.makeText(MyOrderActivity.this,
 						msg.obj.toString() == "1" ? "成功收货" : "收货异常",
 						Toast.LENGTH_SHORT).show();
-				
+
 				break;
 			}
 		};
@@ -65,7 +74,8 @@ public class MyOrderActivity extends BaseActivity {
 	private ExpandableListView lv_myorder;
 	private OrderAadpter adapter;
 	private List<Order> list;
-	private List<Goods> cGoods;
+	private Map<String, List<Goods>> cGoods;
+	private String orderId;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -75,12 +85,26 @@ public class MyOrderActivity extends BaseActivity {
 		lv_myorder = (ExpandableListView) findViewById(R.id.lv_myorder);
 		templist = new ArrayList<>();
 		list = new ArrayList<>();
-		cGoods = new ArrayList<>();
+		cGoods = new HashMap<>();
 		// adapter = new MyOrderAdapter(list, handler, MyOrderActivity.this);
 		adapter = new OrderAadpter();
 		lv_myorder.setAdapter(adapter);
 		lv_myorder.setGroupIndicator(null);
-
+		// lv_myorder.setOnGroupClickListener(new OnGroupClickListener() {
+		//
+		// @Override
+		// public boolean onGroupClick(ExpandableListView parent, View v,
+		// int groupPosition, long id) {
+		// // TODO 自动生成的方法存根
+		// Log.d(MyApplication.TAG, "onGroupClick");
+		// for(int i=0;i<cGoods.size();i++){
+		// cGoods.remove(i);
+		// }
+		// list.remove(groupPosition);
+		// adapter.notifyDataSetChanged();
+		// return false;
+		// }
+		// });
 		getData();
 	}
 
@@ -106,7 +130,37 @@ public class MyOrderActivity extends BaseActivity {
 		startService(intent);
 	}
 
+	public class MyOnclick implements OnClickListener {
+		Button btn;
+		private int groupPosition;
+
+		public MyOnclick(Button btn, int groupPosition) {
+			this.btn = btn;
+			this.groupPosition = groupPosition;
+		}
+
+		@Override
+		public void onClick(View v) {
+			// TODO 自动生成的方法存根
+			confirmOrder(groupPosition);
+			Order order = list.get(groupPosition);
+			List<Goods> tempChildList = new ArrayList<>();
+			List<Goods> childs = cGoods.get(order.getOrderId());
+			for (int i = 0; i < childs.size(); i++) {
+				tempChildList.add(childs.get(i));
+			}
+			childs.removeAll(tempChildList);
+			// List<Goods> list=order.getGoods();
+			list.remove(order.getOrderId());
+			adapter.notifyDataSetChanged();
+			finish();
+			// btn.setVisibility(View.GONE);
+		}
+
+	}
+
 	public class OrderAadpter extends BaseExpandableListAdapter {
+		boolean isOnclick;
 
 		@Override
 		public int getGroupCount() {
@@ -117,7 +171,9 @@ public class MyOrderActivity extends BaseActivity {
 		@Override
 		public int getChildrenCount(int groupPosition) {
 			// TODO 自动生成的方法存根
-			return list.get(groupPosition).getGoods().size();
+			orderId = list.get(groupPosition).getOrderId();
+			// cGoods.put(orderId, list.get(groupPosition).getGoods());
+			return cGoods.get(orderId).size();
 		}
 
 		@Override
@@ -129,7 +185,9 @@ public class MyOrderActivity extends BaseActivity {
 		@Override
 		public Object getChild(int groupPosition, int childPosition) {
 			// TODO 自动生成的方法存根
-			return list.get(groupPosition).getGoods().get(childPosition);
+			List<Goods> childs = cGoods.get(list.get(groupPosition)
+					.getOrderId());
+			return childs.get(childPosition);
 		}
 
 		@Override
@@ -152,12 +210,12 @@ public class MyOrderActivity extends BaseActivity {
 
 		@Override
 		public View getGroupView(final int groupPosition, boolean isExpanded,
-				View convertView, ViewGroup parent) {
+				View convertView, final ViewGroup parent) {
 			// TODO 自动生成的方法存根
 			HashMap<Integer, View> map = new HashMap<>();
-			cGoods = (List<Goods>) list.get(groupPosition).getGoods();
+			// cGoods = (List<Goods>) list.get(groupPosition).getGoods();
 			ViewHolderp holder = null;
-			if (map.get(groupPosition)==null) {
+			if (map.get(groupPosition) == null) {
 				convertView = getLayoutInflater().inflate(
 						R.layout.order_adapter, null);
 				holder = new ViewHolderp();
@@ -165,28 +223,34 @@ public class MyOrderActivity extends BaseActivity {
 						.findViewById(R.id.lv_orderadapter);
 				holder.btn_confirm = (Button) convertView
 						.findViewById(R.id.btn_confirm);
+				map.put(groupPosition, convertView);
 				convertView.setTag(holder);
 			} else {
-				convertView=map.get(groupPosition);
+				convertView = map.get(groupPosition);
 				holder = (ViewHolderp) convertView.getTag();
 			}
-			// holder.lv_order.setAdapter(new
-			// MyOrderAdapter(list.get(position).getGoods()));
-			// holder.lv_order.setAdapter(new MyOrderAdapter(list,
-			// MyOrderActivity.this));
-			holder.btn_confirm.setOnClickListener(new OnClickListener() {
+			final Order order = (Order) getGroup(groupPosition);
+			if (order != null) {
+				holder.btn_confirm.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					// TODO 自动生成的方法存根
-					confirmOrder(groupPosition);
-					for(int i=0;i<cGoods.size();i++){
-						cGoods.remove(i);
+					@Override
+					public void onClick(View v) {
+						// TODO 自动生成的方法存根
+						confirmOrder(groupPosition);
+						Order order = list.get(groupPosition);
+						List<Goods> tempChildList = new ArrayList<>();
+						List<Goods> childs = cGoods.get(order.getOrderId());
+						for (int i = 0; i < childs.size(); i++) {
+							tempChildList.add(childs.get(i));
+						}
+						childs.removeAll(tempChildList);
+						// List<Goods> list=order.getGoods();
+						list.remove(order.getOrderId());
+						adapter.notifyDataSetChanged();
+						finish();
 					}
-					list.remove(groupPosition);
-					notifyDataSetChanged();
-				}
-			});
+				});
+			}
 			return convertView;
 		}
 
@@ -195,7 +259,7 @@ public class MyOrderActivity extends BaseActivity {
 				boolean isLastChild, View convertView, ViewGroup parent) {
 			HashMap<Integer, View> map = new HashMap<>();
 			ViewHolderc holder = null;
-			if (map.get(childPosition)==null) {
+			if (map.get(childPosition) == null) {
 				holder = new ViewHolderc();
 				convertView = getLayoutInflater().inflate(
 						R.layout.myorder_item, null);
@@ -209,33 +273,31 @@ public class MyOrderActivity extends BaseActivity {
 						.findViewById(R.id.tv_sumprice);
 				holder.tv_priceKind = (TextView) convertView
 						.findViewById(R.id.tv_priceKind);
-				// holder.btn_confirm = (Button) convertView
-				// .findViewById(R.id.btn_confirm);
+				map.put(childPosition, convertView);
 				convertView.setTag(holder);
 
 			} else {
-				convertView=map.get(childPosition);
+				convertView = map.get(childPosition);
 				holder = (ViewHolderc) convertView.getTag();
 			}
-			holder.tv_name.setText(cGoods.get(childPosition).getGoodName());
-			holder.tv_singleprice.setText("单价："
-					+ cGoods.get(childPosition).getGoodPrice());
-			holder.tv_weight.setText("重量："
-					+ cGoods.get(childPosition).getGoodWeight());
-			holder.tv_sumprice.setText("合计："
-					+ cGoods.get(childPosition).getGoodSum());
-			//
-			// holder.tv_priceKind.setText(list.get(position).getPriceKind());
-			// holder.btn_confirm.setOnClickListener(new OnClickListener() {
-			//
-			// @Override
-			// public void onClick(View v) {
-			// // TODO 自动生成的方法存根
-			// confirmOrder(position);
-			// }
-			// });
+			final Goods good = (Goods) getChild(groupPosition, childPosition);
+			if (good != null) {
+
+				String tvName = good.getGoodName();
+				String tvSinglePrice = good.getGoodPrice();
+				String tvWeight = good.getGoodWeight();
+				String tvSumprice = good.getGoodSum();
+				Log.d(MyApplication.TAG, "tvNmae:" + tvName + "tvSinglePrice:"
+						+ tvSinglePrice + "tvWeight:" + tvWeight
+						+ "tvSumprice:" + tvSumprice + "childPosition:"
+						+ childPosition + "groupPosition" + groupPosition);
+
+				holder.tv_name.setText(tvName);
+				holder.tv_singleprice.setText("单价：" + tvSinglePrice + "元");
+				holder.tv_weight.setText("重量：" + tvWeight + "斤");
+				holder.tv_sumprice.setText("合计：" + tvSumprice + "元");
+			}
 			return convertView;
-			// TODO 自动生成的方法存根
 		}
 
 		@Override
@@ -253,7 +315,6 @@ public class MyOrderActivity extends BaseActivity {
 		TextView tv_sumprice;// 总价
 		TextView tv_priceKind;// 类
 
-		// Button btn_confirm;
 	}
 
 	class ViewHolderp {

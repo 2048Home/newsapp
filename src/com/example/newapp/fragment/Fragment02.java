@@ -102,6 +102,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 		userSp = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		shopping_car = (ListView) view.findViewById(R.id.shopping_car);
 
+	
 		tv_totalprice = (TextView) view.findViewById(R.id.tv_totalprice);
 		btn_clear = (Button) view.findViewById(R.id.btn_clear);
 		btn_clear.setOnClickListener(new OnClickListener() {
@@ -134,6 +135,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 	public void onStart() {
 		// TODO 自动生成的方法存根
 		super.onStart();
+		getAddress();
 		count = 0;
 		tv_totalprice.setText(Total + String.valueOf(count));
 		listdata = user.queryData();
@@ -181,7 +183,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 		case R.id.btn_buy:
 
 			if (SPutils.isLogin(getActivity())) {
-				getAddress();
+			
 				setOrder(address);
 			} else {
 				Intent intent = new Intent();
