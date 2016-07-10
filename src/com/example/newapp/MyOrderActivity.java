@@ -39,6 +39,7 @@ import com.example.utils.InfoUtils;
  * @时间 2016年6月13日
  */
 public class MyOrderActivity extends BaseActivity {
+	private int grouption;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -62,10 +63,29 @@ public class MyOrderActivity extends BaseActivity {
 						Toast.LENGTH_SHORT).show();
 				break;
 			case InfoUtils.GET_SUCCESS:
-				Toast.makeText(MyOrderActivity.this,
-						msg.obj.toString() == "1" ? "成功收货" : "收货异常",
-						Toast.LENGTH_SHORT).show();
-
+//				Toast.makeText(MyOrderActivity.this,
+//						msg.obj.toString() == "1" ? "成功收货" : "收货异常",
+//						Toast.LENGTH_SHORT).show();
+				if (msg.obj.toString().equals("1")) {
+					Toast.makeText(MyOrderActivity.this,
+							"成功收货",
+								Toast.LENGTH_SHORT).show();
+					Order order = list.get(grouption);
+					List<Goods> tempChildList = new ArrayList<>();
+					List<Goods> childs = cGoods.get(order.getOrderId());
+					for (int i = 0; i < childs.size(); i++) {
+						tempChildList.add(childs.get(i));
+					}
+					childs.removeAll(tempChildList);
+					// List<Goods> list=order.getGoods();
+					list.remove(order.getOrderId());
+					adapter.notifyDataSetChanged();
+					finish();
+				}else {
+					Toast.makeText(MyOrderActivity.this,
+						"货物还未到，请稍等",
+							Toast.LENGTH_SHORT).show();
+				}
 				break;
 			}
 		};
@@ -143,17 +163,17 @@ public class MyOrderActivity extends BaseActivity {
 		public void onClick(View v) {
 			// TODO 自动生成的方法存根
 			confirmOrder(groupPosition);
-			Order order = list.get(groupPosition);
-			List<Goods> tempChildList = new ArrayList<>();
-			List<Goods> childs = cGoods.get(order.getOrderId());
-			for (int i = 0; i < childs.size(); i++) {
-				tempChildList.add(childs.get(i));
-			}
-			childs.removeAll(tempChildList);
-			// List<Goods> list=order.getGoods();
-			list.remove(order.getOrderId());
-			adapter.notifyDataSetChanged();
-			finish();
+			// Order order = list.get(groupPosition);
+			// List<Goods> tempChildList = new ArrayList<>();
+			// List<Goods> childs = cGoods.get(order.getOrderId());
+			// for (int i = 0; i < childs.size(); i++) {
+			// tempChildList.add(childs.get(i));
+			// }
+			// childs.removeAll(tempChildList);
+			// // List<Goods> list=order.getGoods();
+			// list.remove(order.getOrderId());
+			// adapter.notifyDataSetChanged();
+			// finish();
 			// btn.setVisibility(View.GONE);
 		}
 
@@ -237,17 +257,18 @@ public class MyOrderActivity extends BaseActivity {
 					public void onClick(View v) {
 						// TODO 自动生成的方法存根
 						confirmOrder(groupPosition);
-						Order order = list.get(groupPosition);
-						List<Goods> tempChildList = new ArrayList<>();
-						List<Goods> childs = cGoods.get(order.getOrderId());
-						for (int i = 0; i < childs.size(); i++) {
-							tempChildList.add(childs.get(i));
-						}
-						childs.removeAll(tempChildList);
-						// List<Goods> list=order.getGoods();
-						list.remove(order.getOrderId());
-						adapter.notifyDataSetChanged();
-						finish();
+						grouption = groupPosition;
+						// Order order = list.get(groupPosition);
+						// List<Goods> tempChildList = new ArrayList<>();
+						// List<Goods> childs = cGoods.get(order.getOrderId());
+						// for (int i = 0; i < childs.size(); i++) {
+						// tempChildList.add(childs.get(i));
+						// }
+						// childs.removeAll(tempChildList);
+						// // List<Goods> list=order.getGoods();
+						// list.remove(order.getOrderId());
+						// adapter.notifyDataSetChanged();
+						// finish();
 					}
 				});
 			}
