@@ -91,10 +91,12 @@ public class ModifyPasswordActivity extends BaseActivity implements
 			break;
 		case R.id.login_in:
 			String url = API.ChangPassword_URL;
-			get_change_password(ModifyPasswordActivity.this, url, et_username
-					.getText().toString(), et_password.getText().toString()
-					.trim(), et_modify_password.getText().toString(),
-					new Messenger(handler));
+			String username = et_username.getText().toString().trim()==null?"":et_username.getText().toString().trim();
+			String password = et_password.getText().toString().trim()==null?"":et_password.getText().toString().trim();
+			String modify_password = et_modify_password.getText().toString()
+					.trim()==null?"":et_modify_password.getText().toString().trim();
+			get_change_password(ModifyPasswordActivity.this, url, username,
+					password, modify_password, new Messenger(handler));
 			break;
 
 		default:
