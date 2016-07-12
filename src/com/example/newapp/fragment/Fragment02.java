@@ -147,7 +147,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 			public void onJian(int price, String state, int position, int number) {
 				// TODO 自动生成的方法存根
 				if (state.equals("add")) {
-					count += price;
+					count += price*5;
 					// count=price;
 					// Log.d(MyApplication.TAG, count+"");
 					user.Updata("Good", "goodWeight", number, new String[] { listdata.get(position).getGoodName() });
@@ -156,7 +156,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 					tv_totalprice.setText(Total + String.valueOf(count));
 				} else if (state.equals("jian")) {
 					if (count > 0) {
-						count -= price;
+						count -= price*5;
 						// count=price;
 						// Log.d(MyApplication.TAG, count+"");
 						user.Updata("Good", "goodWeight", number,

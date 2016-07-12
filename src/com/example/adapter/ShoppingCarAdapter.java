@@ -240,7 +240,8 @@ public class ShoppingCarAdapter extends BaseAdapter {
 	 } else if (state == REMOVE) {
 	 if (onJianListener != null) {
 	 if (!holder.tv_show.getText().equals("0")) {
-		 holder.tv_show.setText(--number + "");
+		 number-=5;
+		 holder.tv_show.setText(number + "");
 	 onJianListener
 	 .onJian(Integer.valueOf(price), "jian", position,number);
 	 // Log.d(MyApplication.TAG,
@@ -249,7 +250,8 @@ public class ShoppingCarAdapter extends BaseAdapter {
 	 }
 	 } else if (state == ADD) {
 	 if (onJianListener != null) {
-		 holder.tv_show.setText(++number + "");
+		 number+=5;
+		 holder.tv_show.setText(number + "");
 	 onJianListener.onJian(Integer.valueOf(price), "add", position,number);
 	
 	 }
