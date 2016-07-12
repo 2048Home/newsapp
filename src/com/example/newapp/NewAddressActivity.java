@@ -190,7 +190,7 @@ public class NewAddressActivity extends BaseActivity implements OnClickListener 
 						String address = edit.getText().toString();
 						try {
 							get_change_address(NewAddressActivity.this, url,
-									userName, URLEncoder.encode(address,"UTF-8"), new Messenger(handler));
+									userName, URLEncoder.encode(address,"UTF-8"),new Messenger(handler));
 						} catch (UnsupportedEncodingException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
