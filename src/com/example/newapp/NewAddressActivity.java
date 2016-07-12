@@ -1,5 +1,7 @@
 package com.example.newapp;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,7 +168,7 @@ public class NewAddressActivity extends BaseActivity implements OnClickListener 
 				ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 		edit.setLayoutParams(lp);
-		edit.setBackground(null);
+//		edit.setBackground(null);
 		// edit.setText(address == null ? "" : address);
 		builder.setMessage("请输入地址").setView(edit)
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -186,8 +188,13 @@ public class NewAddressActivity extends BaseActivity implements OnClickListener 
 						String userName = SPutils
 								.getUserName(NewAddressActivity.this);
 						String address = edit.getText().toString();
-						get_change_address(NewAddressActivity.this, url,
-								userName, address, new Messenger(handler));
+						try {
+							get_change_address(NewAddressActivity.this, url,
+									userName, URLEncoder.encode(address,"UTF-8"), new Messenger(handler));
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 
 				}).setCancelable(false).create().show();
