@@ -48,7 +48,7 @@
             android:id="@+id/tv_jian"
             android:layout_width="30dp"
             android:layout_height="30dp"
-             android:background="#ecb818"
+            android:background="@color/addButtonColor"
             android:gravity="center"
             android:text="-"
             android:textSize="20dp" />
@@ -66,8 +66,7 @@
             android:id="@+id/tv_jia"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="#ecb818"
-
+            android:background="@color/addButtonColor"
             android:gravity="center"
             android:text="+"
             android:textSize="20dp" />

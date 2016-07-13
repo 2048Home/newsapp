@@ -126,8 +126,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				switch (arg0) {
 				case 0:
 					tv_title.setText("全部商品");
-//					Drawable drawable=getResources().getDrawable(R.drawable.hotsale);
-//					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
 					btn_01.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.hotsale, 0, 0);
 					btn_02.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.shoppingcar_nomal, 0, 0);
 					btn_03.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.my_normal, 0, 0);

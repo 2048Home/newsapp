@@ -75,13 +75,6 @@ public class Fragment01 extends BaseFragment {
 		getData();
 		gv_hot_sale = (GridView) view.findViewById(R.id.gv_hot_sale);
 		TextView tv_phone = (TextView) view.findViewById(R.id.tv_phone);
-		// Good good = new Good();
-		// good.setGoodImgPath("");
-		// good.setGoodName("asdhakj");
-		// good.setGoodPrice("200");
-		// good.setGoodWeight("20");
-		// listdata = new ArrayList<>();
-		// listdata.add(good);
 		tempList = new ArrayList<>();
 		listdata = new ArrayList<>();
 		hotsaleAdapter = new HotsaleAdapter(listdata, getActivity());

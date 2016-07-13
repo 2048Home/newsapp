@@ -50,4 +50,9 @@ public class API {
 	public final static int CONFIRM_ORDER=710;
 	public final static String CONFIRM_ORDER_URL=COMMON_URL+"/Vegetable/servlet/ConfirmGood?";
 	public final static String CONFIRM_ORDER_MESSAGE="com.example.confirmorder";
+	
+	//判断价格是否变化
+		public final static int PRICE_CHANGE=810;
+		public final static String PRICE_CHANGE_URL=COMMON_URL+"/Vegetable/servlet/ConfirmGood?";
+		public final static String PRICE_CHANGE_MESSAGE="com.example.confirmorder";
 }

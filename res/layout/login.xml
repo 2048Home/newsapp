@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:text="用户登录"
-             android:textColor="#025900"
+             android:textColor="@color/loginColor"
             android:textSize="16dp" />
     </RelativeLayout>
 
@@ -55,7 +55,7 @@
             android:id="@+id/login_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                android:textColor="#025900"
+              android:textColor="@color/loginColor"
             android:text="登   录"
             
             android:gravity="center"

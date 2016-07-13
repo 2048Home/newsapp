@@ -36,7 +36,6 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@android:drawable/arrow_up_float"
-            android:entries="@array/spinner"
             android:spinnerMode="dropdown"
             android:visibility="gone" />
 

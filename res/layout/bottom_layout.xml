@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#b8b5ac"
+    android:background="@color/bottomColor"
     
     android:orientation="horizontal" >
 
@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="#8c8b88"
+        android:textColor="@color/hotsaleTextColor"
         android:drawableTop="@drawable/hotsale"
         android:gravity="center_horizontal"
         android:text="热销商品" />
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-             android:textColor="#8c8b88"
+          android:textColor="@color/hotsaleTextColor"
             android:drawableTop="@drawable/shoppingcar_nomal"
             android:gravity="center_horizontal"
              android:layout_margin="5dp"
@@ -48,7 +48,7 @@
         android:layout_weight="1"
         android:drawableTop="@drawable/my_normal"
         android:gravity="center_horizontal"
-         android:textColor="#8c8b88"
+         android:textColor="@color/hotsaleTextColor"
         android:text="我的" />
 
 </LinearLayout>

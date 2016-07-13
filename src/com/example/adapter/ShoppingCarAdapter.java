@@ -224,12 +224,6 @@ public class ShoppingCarAdapter extends BaseAdapter {
 	 @Override
 	 public void onClick(View v) {
 	 // TODO 自动生成的方法存根
-	 // holder.tv_show.setText(user
-	 // .queryGoodWeightByName(new String[] { listdata
-	 // .get(position).getGoodName() }));
-	 // Log.d(MyApplication.TAG, user
-	 // .queryGoodWeightByName(new String[] { listdata
-	 // .get(position).getGoodName() }));
 	 int number = Integer.valueOf(holder.tv_show.getText().toString()
 	 .trim());
 	 // Log.d(MyApplication.TAG, number+"");

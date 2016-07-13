@@ -72,4 +72,17 @@ public void onCreate(Bundle savedInstanceState) {
 		
 	}
 	
+	public void set_priceChange(Context paramContext,String url,String userName,String address,String reMark,String jsondata,Messenger paramMessenger){
+		Intent intent=new Intent(paramContext,MyService.class);
+		intent.putExtra("url", url);
+		intent.putExtra("userName", userName);
+		intent.putExtra("address", address);
+		intent.putExtra("reMark", reMark);
+		intent.putExtra("jsondata", jsondata);
+		intent.putExtra("api", API.RequestOrder_API);
+		intent.putExtra(API.RequestOrder_MESSAGE, paramMessenger);
+		paramContext.startService(intent);
+		
+	}
+	
 }

@@ -16,4 +16,7 @@ public class InfoUtils {
 	//收货
 	public static final int GET_SUCCESS=138;
 	public static final int GET_ERROR=139;
+	
+	//价格是否变动
+	public static final int PRICE_CHANGE_INFO=140;
 }

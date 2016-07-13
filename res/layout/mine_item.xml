@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="我的订单"
-        android:textColor="#8c8b88" />
+        android:textColor="@color/hotsaleTextColor" />
 
 </LinearLayout>
