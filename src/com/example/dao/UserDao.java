@@ -67,9 +67,10 @@ public class UserDao {
 				good.setGoodImgPath(goodImgPath);
 				good.setGoodWeight(goodWeight);
 				good.setOneBoxWeight(oneBoxWeight);
-				if(!goodWeight.equals("0")){
-					list.add(good);
-				}
+				list.add(good);
+//				if(!goodWeight.equals("0")){
+//					list.add(good);
+//				}
 				// }
 			}
 		}
