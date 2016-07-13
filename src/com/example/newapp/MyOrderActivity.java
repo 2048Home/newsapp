@@ -243,6 +243,8 @@ public class MyOrderActivity extends BaseActivity {
 						.findViewById(R.id.lv_orderadapter);
 				holder.btn_confirm = (Button) convertView
 						.findViewById(R.id.btn_confirm);
+				holder.sum = (TextView) convertView
+						.findViewById(R.id.sum);
 				map.put(groupPosition, convertView);
 				convertView.setTag(holder);
 			} else {
@@ -250,6 +252,14 @@ public class MyOrderActivity extends BaseActivity {
 				holder = (ViewHolderp) convertView.getTag();
 			}
 			final Order order = (Order) getGroup(groupPosition);
+			
+			 List<Goods> listGoods = cGoods.get(list.get(groupPosition).getOrderId());
+			 double sum = 0;
+			 for (Goods good : listGoods) {
+				double goodSum = Double.valueOf(good.getGoodSum());
+				sum += goodSum;
+			}
+			 holder.sum.setText(sum+"");
 			if (order != null) {
 				holder.btn_confirm.setOnClickListener(new OnClickListener() {
 
@@ -341,6 +351,7 @@ public class MyOrderActivity extends BaseActivity {
 	class ViewHolderp {
 		ListView lv_order;
 		Button btn_confirm;
+		TextView sum;
 		// public class OrderAdaoter extends BaseAdapter {
 		// HashMap<Integer, View> map = new HashMap<>();
 		//
