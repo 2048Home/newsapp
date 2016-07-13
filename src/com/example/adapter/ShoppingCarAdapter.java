@@ -235,7 +235,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 	 // Log.d(MyApplication.TAG, number+"");
 	 if (state == NONE) {
 	 if (onJianListener != null) {
-	 onJianListener.onJian(Integer.valueOf(price), "", position,number);
+	 onJianListener.onJian(Double.valueOf(price), "", position,number);
 	 }
 	 } else if (state == REMOVE) {
 	 if (onJianListener != null) {
@@ -243,7 +243,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 		 number-=5;
 		 holder.tv_show.setText(number + "");
 	 onJianListener
-	 .onJian(Integer.valueOf(price), "jian", position,number);
+	 .onJian(Double.valueOf(price), "jian", position,number);
 	 // Log.d(MyApplication.TAG,
 	 // holder.tv_show.getText().toString().indexOf(0)+"");
 	 }
@@ -252,7 +252,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 	 if (onJianListener != null) {
 		 number+=5;
 		 holder.tv_show.setText(number + "");
-	 onJianListener.onJian(Integer.valueOf(price), "add", position,number);
+	 onJianListener.onJian(Double.valueOf(price), "add", position,number);
 	
 	 }
 	 }
@@ -262,7 +262,7 @@ public class ShoppingCarAdapter extends BaseAdapter {
 	onJianListener onJianListener;
 
 	public interface onJianListener {
-		void onJian(int price, String state, int position,int number);
+		void onJian(double price, String state, int position,int number);
 	}
 
 	/**

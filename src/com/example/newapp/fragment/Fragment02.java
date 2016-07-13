@@ -93,7 +93,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 		return view;
 	}
 
-	int count = 0;
+	double count = 0;
 
 	private void intiView() {
 		user = new UserDao(getActivity());
@@ -144,7 +144,7 @@ public class Fragment02 extends BaseFragment implements OnClickListener {
 		shoppingCarAdapter.setonJianListener(new onJianListener() {
 
 			@Override
-			public void onJian(int price, String state, int position, int number) {
+			public void onJian(double price, String state, int position, int number) {
 				// TODO 自动生成的方法存根
 				if (state.equals("add")) {
 					count += price*5;
