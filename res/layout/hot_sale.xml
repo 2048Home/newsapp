@@ -18,7 +18,7 @@
         android:textSize="20sp"
         android:focusableInTouchMode="true"
         android:singleLine="true"
-        android:text="电话号码:123456789123" />
+        android:text="电话号码:86866255或17708446646" />
 
     <GridView
         android:id="@+id/gv_hot_sale"
