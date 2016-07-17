@@ -68,6 +68,7 @@ public class ModifyPasswordActivity extends BaseActivity implements
 		et_username = (EditText) findViewById(R.id.et_username);
 		et_password = (EditText) findViewById(R.id.et_password);
 		et_modify_password = (EditText) findViewById(R.id.et_modify_password);
+		et_modify_password.setVisibility(View.GONE);
 		login_in = (Button) findViewById(R.id.login_in);
 
 		tv_back.setOnClickListener(this);
@@ -93,10 +94,10 @@ public class ModifyPasswordActivity extends BaseActivity implements
 			String url = API.ChangPassword_URL;
 			String username = et_username.getText().toString().trim()==null?"":et_username.getText().toString().trim();
 			String password = et_password.getText().toString().trim()==null?"":et_password.getText().toString().trim();
-			String modify_password = et_modify_password.getText().toString()
-					.trim()==null?"":et_modify_password.getText().toString().trim();
+//			String modify_password = et_modify_password.getText().toString()
+//					.trim()==null?"":et_modify_password.getText().toString().trim();
 			get_change_password(ModifyPasswordActivity.this, url, username,
-					password, modify_password, new Messenger(handler));
+					password, /*modify_password,*/ new Messenger(handler));
 			break;
 
 		default:

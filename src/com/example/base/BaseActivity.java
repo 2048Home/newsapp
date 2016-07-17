@@ -129,12 +129,12 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 	 * @param againpassword
 	 * @param paramMessenger
 	 */
-	public void get_change_password(Context paramContext,String url,	String name ,String password,String againpassword,Messenger paramMessenger){
+	public void get_change_password(Context paramContext,String url,	String name ,String password,/*String againpassword,*/Messenger paramMessenger){
 		Intent intent=new Intent(paramContext,MyService.class);
 		intent.putExtra("url", url);
 		intent.putExtra("name", name);
 		intent.putExtra("password", password);
-		intent.putExtra("againpassword", againpassword);
+//		intent.putExtra("againpassword", againpassword);
 		intent.putExtra("api", API.ChangPassword_API);
 		intent.putExtra(API.ChangPassword_MESSAGE, paramMessenger);
 		paramContext.startService(intent);

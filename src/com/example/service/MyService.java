@@ -300,10 +300,10 @@ public class MyService extends IntentService {
 		// TODO 自动生成的方法存根
 		String url = intent.getStringExtra("url");
 		String name = "name=" + intent.getStringExtra("name");
-		String password1 = "password1=" + intent.getStringExtra("password");
-		String password2 = "password2="
-				+ intent.getStringExtra("againpassword");
-		String[] str = new String[] { name, password1, password2 };
+		String password1 = "changePassword=" + intent.getStringExtra("password");
+//		String password2 = "password2="
+//				+ intent.getStringExtra("againpassword");
+		String[] str = new String[] { name, password1, /*password2*/ };
 		String URL = url + setUrl(str);
 		try {
 			String json = HttpConnectUtils.httpConncet(URL);
